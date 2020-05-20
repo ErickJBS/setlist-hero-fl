@@ -9,16 +9,16 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('login screen'),
-      ),
-      body: Center(
-          child: RaisedButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-           child: Text('Go back!'),
+      //appBar: AppBar(
+          //title: Text('login screen'),
+      //),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/background_images/login_screen_back.png'),
+            fit: BoxFit.cover
           ),
+        ),
       ),
     );
   }
