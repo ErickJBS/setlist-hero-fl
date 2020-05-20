@@ -13,7 +13,7 @@ class Router {
         return MaterialPageRoute(builder: (_) => HomeScreen(title: 'Setlist Hero',));
 
       case loginRoute:
-        return MaterialPageRoute(builder: (_) => LoginScreen(title: 'Setlist Hero',));
+        return MaterialPageRoute(builder: (_) => LoginScreen());
 
       default:
         return MaterialPageRoute(
