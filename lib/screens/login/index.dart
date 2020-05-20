@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 80,),
+            SizedBox(height: 60,),
             Padding(
               padding: EdgeInsets.all(20),
               child: Column(
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 40,),
+                      SizedBox(height: 25,),
                       Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -104,11 +104,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text('Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                         ),
                       ),
-                      SizedBox(height: 70,),
+                      SizedBox(height: 30,),
+                      Text('Continue with social media', style: TextStyle(color: Colors.grey[700]),),
+                      SizedBox(height: 30,),
                       Row(
                         children: <Widget>[
-                          Container(
-                            
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.blueAccent
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 30,),  // separador para botones redes sociales
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.lightBlueAccent
+                              ),
+                            ),
                           ),
                         ],
                       ),
