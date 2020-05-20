@@ -41,14 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white70,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(60), topRight: Radius.circular(60))
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(60))
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(30),
                   child: Column(
                     children: <Widget>[
+                      SizedBox(height: 40,),
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
@@ -57,6 +58,38 @@ class _LoginScreenState extends State<LoginScreen> {
                               blurRadius: 20,
                               offset: Offset(0, 10)
                             )]
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                border: Border(bottom: BorderSide(
+                                  color: Colors.grey[200]))
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(
+                                      color: Colors.grey[200]))
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     ],
