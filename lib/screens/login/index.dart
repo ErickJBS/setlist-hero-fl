@@ -30,9 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Login', style: TextStyle(color: Colors.white, fontSize: 40),),
+                  Text('Welcome', style: TextStyle(color: Colors.white, fontSize: 40),),
                   SizedBox(height: 10,), // Separador de palabras
-                  Text('Welcome', style: TextStyle(color: Colors.white, fontSize: 20),),
+                  Text('Lets rock!', style: TextStyle(color: Colors.white, fontSize: 20),),
                 ],
               ),
             ),
@@ -91,7 +91,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                      )
+                      ),
+                      SizedBox(height: 30,),  // separador para botn login
+                      Container(
+                        height: 50,
+                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.orange[900]
+                        ),
+                        child: Center(
+                          child: Text('Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        ),
+                      ),
+                      SizedBox(height: 70,),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
