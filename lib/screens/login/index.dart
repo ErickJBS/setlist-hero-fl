@@ -116,6 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(50),
                                 color: Colors.blueAccent
                               ),
+                              child: Center(
+                                child: Text('Facebook', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                              ),
                             ),
                           ),
                           SizedBox(width: 30,),  // separador para botones redes sociales
@@ -125,6 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: Colors.lightBlueAccent
+                              ),
+                              child: Center(
+                                child: Text('Twitter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                               ),
                             ),
                           ),
