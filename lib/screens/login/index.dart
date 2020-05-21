@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,10 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('lib/assets/background_images/login_screen_back.png'),
-            fit: BoxFit.cover
+          gradient: LinearGradient(
+            colors: [
+              Colors.orange[900],
+              Colors.orange[800],
+              Colors.orange[400],
+            ],
           ),
+
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(60))
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(30),
@@ -54,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [BoxShadow(
-                              color: Color.fromARGB(255, 95, 27, 3),
+                              color: Colors.grey[200],
                               blurRadius: 20,
                               offset: Offset(0, 10)
                             )]
@@ -94,11 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 30,),  // separador para botn login
                       Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        height: 40,
+                        padding: EdgeInsets.all(10),
+                        //margin: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.orange[900]
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                          color: Colors.orangeAccent[700]
                         ),
                         child: Center(
                           child: Text('Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
@@ -113,11 +119,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.blueAccent
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                color: Color.fromARGB(255, 59, 89, 152)
                               ),
                               child: Center(
-                                child: Text('Facebook', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      FontAwesomeIcons.facebook,
+                                      color: Colors.white,
+                                      size: 30,
+
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -126,11 +142,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.lightBlueAccent
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                  color: Color.fromARGB(255, 53, 114, 155),
                               ),
                               child: Center(
-                                child: Text('Twitter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      FontAwesomeIcons.google,
+                                      color: Colors.white,
+                                      size: 30,
+
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
