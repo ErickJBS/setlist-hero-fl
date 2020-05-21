@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import './screens/home/index.dart';
 import './screens/register/index.dart';
+import './screens/login/index.dart';
+
 
 const String homeRoute = 'home';
 const String registerRoute = 'register';
+const String loginRoute = 'login';
 
 class Router {
   static Route <dynamic> generateRoute(RouteSettings settings) {
@@ -15,6 +18,9 @@ class Router {
       case registerRoute:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
         
+      case loginRoute:
+        return MaterialPageRoute(builder: (_) => LoginScreen());
+
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
