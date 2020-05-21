@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:setlistherofl/screens/register/widgets/normalTextField/index.dart';
 import 'package:setlistherofl/screens/register/widgets/passwordField/index.dart';
+import 'package:setlistherofl/screens/register/index.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -163,7 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 5,),
                           InkWell(
-                            onTap: (){},
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()),
+                              );
+                            },
                             child: Text('Register',
                               style: TextStyle(
                                 color: Colors.orangeAccent[400],
