@@ -13,7 +13,7 @@ class Router {
   static Route <dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen(title: 'Setlist Hero',));
+        return MaterialPageRoute(builder: (_) => HomeScreen());
 
       case registerRoute:
         return MaterialPageRoute(builder: (_) => RegisterScreen());

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:setlistherofl/screens/register/widgets/normalTextField/index.dart';
+import 'package:setlistherofl/screens/register/widgets/passwordField/index.dart';
+import 'package:setlistherofl/screens/register/index.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -37,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   Text('Welcome', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat',fontSize: 40),),
                   SizedBox(height: 10,), // Separador de palabras
-                  Text('Lets rock!', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', fontSize: 20),),
+                  Text("Let's rock!", style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', fontSize: 20),),
                 ],
               ),
             ),
@@ -53,60 +56,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 15,),
+                      NormalTextField(label: "Email"),
+                      PasswordField(label: "Password"),
+                      SizedBox(height: 20,),  // separador para botn login
                       Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            //boxShadow: [BoxShadow(
-                              //color: Colors.grey[200],
-                              //blurRadius: 20,
-                              //offset: Offset(0, 10)
-                           // )]
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(
-                                  color: Colors.grey[300]))
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Montserrat',),
-                                  border: InputBorder.none
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(
-                                      color: Colors.grey[300]))
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    hintText: 'Password',
-                                    hintStyle: TextStyle(color: Colors.grey, fontFamily: 'Montserrat',),
-                                    border: InputBorder.none
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 40,),  // separador para botn login
-                      Container(
-                        height: 40,
-                        padding: EdgeInsets.all(10),
+                        //height: 40,
+                        //padding: EdgeInsets.all(10),
                         //margin: EdgeInsets.symmetric(horizontal: 10),
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
                           color: Colors.orangeAccent[700]
                         ),
-                        child: Center(
+                        child: FlatButton(
+                          onPressed: () {
+                            print('Signed in');
+                          },
                           child: Text(
                             'LOGIN',
                             style: TextStyle(
@@ -130,7 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           Expanded(
                             child: Container(
-                              height: 40,
+                              //height: 40,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
                                 color: Color.fromARGB(255, 59, 89, 152)
@@ -139,11 +105,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(
-                                      FontAwesomeIcons.facebook,
-                                      color: Colors.white,
-                                      size: 28,
+                                    FlatButton(
+                                      onPressed: () {
+                                        print('Facebook signed in');
+                                      },
+                                      child: Icon(
+                                        FontAwesomeIcons.facebook,
+                                        color: Colors.white,
+                                        size: 28,
 
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -153,7 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(width: 40,),  // separador para botones redes sociales
                           Expanded(
                             child: Container(
-                              height: 40,
+                              //height: 40,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
                                   color: Colors.deepOrange,
@@ -162,10 +134,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(
-                                      FontAwesomeIcons.google,
-                                      color: Colors.white,
-                                      size: 28,
+                                    FlatButton(
+                                      onPressed: () {
+                                        print('Google signed in');
+                                      },
+                                      child: Icon(
+                                        FontAwesomeIcons.google,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -179,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'Dont have an account? ',
+                            "Don't have an account? ",
                             style: TextStyle(
                                 color: Colors.grey[700],
                                 fontFamily: 'Montserrat',
@@ -187,7 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 5,),
                           InkWell(
-                            onTap: (){},
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterScreen()),
+                              );
+                            },
                             child: Text('Register',
                               style: TextStyle(
                                 color: Colors.orangeAccent[400],

@@ -11,7 +11,7 @@ class App extends StatelessWidget {
     return MaterialApp(
 
       title: 'Setlist Hero',
-      initialRoute: registerRoute,
+      initialRoute: homeRoute,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
