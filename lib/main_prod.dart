@@ -1,5 +1,6 @@
 import 'package:setlistherofl/app_config.dart';
-import 'package:setlistherofl/main.dart';
+import 'package:setlistherofl/app.dart';
+import 'package:setlistherofl/service_locator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,5 +9,6 @@ void main() {
     apiUrl: 'https://setlist-hero.wl.r.appspot.com/api/'
   );
   
+  setupServiceLocator();
   runApp(App());
 }
