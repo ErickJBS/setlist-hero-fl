@@ -12,7 +12,8 @@ class AuthService {
   Future<User> loginWithPassword(String identifier, String password) async {
     var url = '$apiUrl/auth/email';
     var body = { 'identifier': identifier, 'password': password };
-    var response = await http.post(url, body: body);
+    var response = await http.post(url, headers: {'content-type': 'application/json'}, body: jsonEncode(body));
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       await saveAuthToken(data['token']);
