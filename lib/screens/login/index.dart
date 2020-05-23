@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:setlistherofl/screens/register/widgets/normalTextField/index.dart';
-import 'package:setlistherofl/screens/register/widgets/passwordField/index.dart';
+import 'package:setlistherofl/screens/home/index.dart';
 import 'package:setlistherofl/screens/register/index.dart';
+import 'package:setlistherofl/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +11,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final AuthService _auth = AuthService();
+  final _containerKey = GlobalKey<FormState>();
+
+  //Text field state
+  String email = '';
+  String password = '';
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +60,52 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
                 ),
                 child: Padding(
+                  key: _containerKey,
                   padding: EdgeInsets.all(30),
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 15,),
-                      NormalTextField(label: "Email"),
-                      PasswordField(label: "Password"),
+                      Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFormField(
+                            //validator: (val) => val.isEmpty ? 'Enter email' : null,
+                              //controller: controller,
+                              onChanged: (val){
+                                  setState(() {
+                                    email = val;
+                                  });
+                              },
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                  //errorText: null,
+                                  labelStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                  ),
+                              ),
+                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: TextFormField(
+                          //validator: (val) => val.isEmpty ? 'Enter password' : null,
+                          //controller: controller,
+                          obscureText: true,
+                          onChanged: (val){
+                            setState(() {
+                              password = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Password',
+                            //errorText: null,
+                            labelStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 20,),  // separador para botn login
                       Container(
                         //height: 40,
@@ -69,8 +117,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.orangeAccent[700]
                         ),
                         child: FlatButton(
-                          onPressed: () {
-                            print('Signed in');
+                          onPressed: () async{
+                            dynamic result = await _auth.loginWithPassword(email, password);
+                            if (result == null){
+                              setState(() {
+                                error = 'Wrong email or password';
+                              });
+                            }else{
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen());
+                            }
                           },
                           child: Text(
                             'LOGIN',
@@ -80,7 +136,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontFamily: 'Montserrat',
                                 fontSize: 20),
                           ),
-
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Text(error,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontFamily: 'Montserrat',
                         ),
                       ),
                       SizedBox(height: 20,),
