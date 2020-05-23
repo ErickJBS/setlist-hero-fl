@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:setlistherofl/screens/splash/index.dart';
 
 import './screens/home/index.dart';
 import './screens/register/index.dart';
 import './screens/login/index.dart';
 
-
+const String splashRoute = '/';
 const String homeRoute = 'home';
 const String registerRoute = 'register';
 const String loginRoute = 'login';
@@ -12,6 +13,9 @@ const String loginRoute = 'login';
 class Router {
   static Route <dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case splashRoute:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
+
       case homeRoute:
         return MaterialPageRoute(builder: (_) => HomeScreen());
 

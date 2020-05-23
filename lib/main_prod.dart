@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   AppConfig.init(
+    debugLabel: false,
     flavor: 'production',
     apiUrl: 'https://setlist-hero.wl.r.appspot.com/api/'
   );
