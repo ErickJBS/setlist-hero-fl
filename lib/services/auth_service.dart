@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:setlistherofl/app_config.dart';
 import 'package:setlistherofl/models/user.dart';
+
+enum Provider {
+  FACEBOOK, GOOGLE
+}
 
 class AuthService {
 
@@ -41,6 +46,31 @@ class AuthService {
       return null;
     }
   }
+
+  Future<User> getUser(String userId) async {
+    var url = '$apiUrl/user/$userId';
+    var response = await http.get(url);
+    var result = jsonDecode(response.body);
+    return User.fromMap(result);
+  }
+
+  Future<User> loginWithSocial(Provider provider) async {
+    // Present the dialog to the user
+    String urlProvider = (provider == Provider.FACEBOOK) ? 'facebook' : 'google';
+    final response = await FlutterWebAuth.authenticate(
+      url: '$apiUrl/auth/$urlProvider?redirectUri=setlistheromobile:/',
+      callbackUrlScheme: "setlistheromobile",
+    );
+
+    // Extract token from resulting url
+    final result = Uri.parse(response);
+    final token = result.queryParameters['token'];
+    final userId = result.queryParameters['userId'];
+    
+    await saveAuthToken(token);
+    return getUser(userId);
+  }
+
 
   Future<void> saveAuthToken(String token) async {
     var preferences = await SharedPreferences.getInstance();

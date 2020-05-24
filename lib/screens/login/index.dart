@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:setlistherofl/routes.dart';
-import 'package:setlistherofl/screens/home/index.dart';
 import 'package:setlistherofl/screens/register/index.dart';
 import 'package:setlistherofl/services/auth_service.dart';
+import 'package:setlistherofl/service_locator.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,8 +13,20 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  final AuthService _auth = AuthService();
+  final AuthService _auth = locator<AuthService>();
   final _containerKey = GlobalKey<FormState>();
+
+  void _loginWithSocialMedia(Provider provider) async {
+    final user = await _auth.loginWithSocial(provider);
+    if (user != null) {
+      print(user.email);
+      Navigator.popAndPushNamed(context, homeRoute);
+    } else {
+      setState(() {
+        error = 'An error happened using social media login. Please Try again';
+      });
+    }
+  }
 
   //Text field state
   String email = '';
@@ -23,9 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(
-          //title: Text('login screen'),
-      //),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -169,9 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     FlatButton(
-                                      onPressed: () {
-                                        print('Facebook signed in');
-                                      },
+                                      onPressed: () => _loginWithSocialMedia(Provider.FACEBOOK),
                                       child: Icon(
                                         FontAwesomeIcons.facebook,
                                         color: Colors.white,
@@ -198,9 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     FlatButton(
-                                      onPressed: () {
-                                        print('Google signed in');
-                                      },
+                                      onPressed: () => _loginWithSocialMedia(Provider.GOOGLE),
                                       child: Icon(
                                         FontAwesomeIcons.google,
                                         color: Colors.white,
