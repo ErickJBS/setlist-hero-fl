@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:setlistherofl/screens/home/Event_page.dart';
 import 'package:setlistherofl/widgets/bottom_bar_home_screen/bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -86,8 +87,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     fontSize: 21,
                   ),
                 ),
-              ),
-            ],
+              )
+            ]),
+          Container(
+            height: MediaQuery.of(context).size.height - 50,
+            width: double.infinity,
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                EventPage(),
+                EventPage(),
+                EventPage(),
+              ]
+            )
           )
         ],
       ),
