@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:setlistherofl/screens/login/index.dart';
-import 'package:setlistherofl/screens/register/index.dart';
+import 'package:setlistherofl/widgets/bottom_bar_home_screen/bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -43,16 +42,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: ListView(
         padding: EdgeInsets.only(left: 20.0),
         children: <Widget>[
-          SizedBox(height: 15.0,),
+          SizedBox(height: 10.0,),
           Text(
-            'New events',
+            'Events',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Montserrat',
               fontSize: 30,
             ),
           ),
-          SizedBox(height: 15,),
+          SizedBox(height: 10,),
           TabBar(
             controller: _tabController,
             indicatorColor: Colors.transparent,
@@ -92,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           )
         ],
       ),
-
+      bottomNavigationBar: BottomBar(),
     );
   }
 }
