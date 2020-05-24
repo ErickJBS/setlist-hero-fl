@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:setlistherofl/screens/home/event_screen.dart';
 class EventPage extends StatefulWidget {
   @override
   _EventPageState createState() => _EventPageState();
@@ -41,7 +42,18 @@ class _EventPageState extends State<EventPage> {
     return Padding(
       padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
       child: InkWell(
-        onTap: (){},
+        onTap: (){
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => EventoSets(
+                  assetPath: imgPath,
+                  date: date,
+                  tourName: tourName,
+                  nameBand: band,
+                ),
+              ),
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
