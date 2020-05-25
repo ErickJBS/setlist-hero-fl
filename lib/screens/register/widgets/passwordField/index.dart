@@ -7,9 +7,14 @@ class PasswordField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final ValueChanged<String> onChangeFoo;
-  final String errorText;
+  final String errorMessage;
+  final bool flag;
 
-  const PasswordField({@required this.label, this.controller, this.onChangeFoo, this.errorText}):assert (label != null);// assert(controller != null);
+  const PasswordField({@required this.label, this.controller, this.onChangeFoo, this.errorMessage, this.flag}):assert(label != null),
+        assert(controller != null),
+        assert(onChangeFoo != null),
+        assert(flag != null),
+        assert(errorMessage != null);
 
 
   @override
@@ -21,7 +26,7 @@ class PasswordField extends StatelessWidget {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               fillColor: Colors.white,
-              errorText: null,
+              errorText: flag ? errorMessage : null,
               labelText: label,
               labelStyle: TextStyle(fontFamily: _montserratFontFamily)
 

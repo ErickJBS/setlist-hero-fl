@@ -6,22 +6,20 @@ import 'package:http/http.dart' as http;
 import 'package:setlistherofl/app_config.dart';
 import 'package:setlistherofl/models/user.dart';
 
-enum Provider {
-  FACEBOOK, GOOGLE
-}
+enum Provider { FACEBOOK, GOOGLE }
 
 class AuthService {
-
   String apiUrl = config.apiUrl;
 
   Future<User> loginWithPassword(String identifier, String password) async {
     var url = '$apiUrl/auth/email';
-    var body = { 'identifier': identifier, 'password': password };
-    var response = await http.post(url, headers: {'content-type': 'application/json'}, body: jsonEncode(body));
+    var body = {'identifier': identifier, 'password': password};
+    var response = await http.post(url,
+        headers: {'content-type': 'application/json'}, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      
+
       await saveAuthToken(data['token']);
 
       return User.fromMap(data['user']);
@@ -30,7 +28,11 @@ class AuthService {
     }
   }
 
-  Future<User> register({String email, String username, String password, String displayName }) async {
+  Future<User> register(
+      {String email,
+      String username,
+      String password,
+      String displayName}) async {
     var url = '$apiUrl/auth/register';
     var body = {
       'email': email,
@@ -38,13 +40,21 @@ class AuthService {
       'username': username,
       'password': password
     };
-    var response = await http.post(url, headers: {'content-type': 'application/json'}, body: jsonEncode(body));
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
 
-      return User.fromMap(data);
-    } else {
-      return null;
+    try {
+      var response = await http.post(url,
+          headers: {'content-type': 'application/json'},
+          body: jsonEncode(body));
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        return User.fromMap(data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw new Exception("Registration error: Invalid username and/or email");
     }
   }
 
@@ -57,7 +67,8 @@ class AuthService {
 
   Future<User> loginWithSocial(Provider provider) async {
     // Present the dialog to the user
-    String urlProvider = (provider == Provider.FACEBOOK) ? 'facebook' : 'google';
+    String urlProvider =
+        (provider == Provider.FACEBOOK) ? 'facebook' : 'google';
     final response = await FlutterWebAuth.authenticate(
       url: '$apiUrl/auth/$urlProvider?redirectUri=setlistheromobile:/',
       callbackUrlScheme: "setlistheromobile",
@@ -67,11 +78,10 @@ class AuthService {
     final result = Uri.parse(response);
     final token = result.queryParameters['token'];
     final userId = result.queryParameters['userId'];
-    
+
     await saveAuthToken(token);
     return getUser(userId);
   }
-
 
   Future<void> saveAuthToken(String token) async {
     var preferences = await SharedPreferences.getInstance();
