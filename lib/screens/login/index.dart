@@ -15,6 +15,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final AuthService _auth = locator<AuthService>();
   final _containerKey = GlobalKey<FormState>();
+  //Text field state
+  String email = '';
+  String password = '';
+  String error = '';
 
   void _loginWithSocialMedia(Provider provider) async {
     final user = await _auth.loginWithSocial(provider);
@@ -28,10 +32,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  //Text field state
-  String email = '';
-  String password = '';
-  String error = '';
+  void _loginWithEmailPassword (email, password) async{
+    dynamic result = await _auth.loginWithPassword(email, password);
+    if (result == null){
+      setState(() {
+        error = 'Wrong email or password';
+      });
+    }else{
+      Navigator.popAndPushNamed(
+          context, homeRoute);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,17 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.orangeAccent[700]
                           ),
                           child: FlatButton(
-                            onPressed: () async{
-                              dynamic result = await _auth.loginWithPassword(email, password);
-                              if (result == null){
-                                setState(() {
-                                  error = 'Wrong email or password';
-                                });
-                              }else{
-                                Navigator.popAndPushNamed(
-                                  context, homeRoute);
-                              }
-                            },
+                            onPressed: () => _loginWithEmailPassword(email, password),
                             child: Text(
                               'LOGIN',
                               style: TextStyle(
