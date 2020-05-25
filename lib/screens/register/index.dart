@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/screens/register/widgets/normalTextField/index.dart';
 import 'package:setlistherofl/screens/register/widgets/passwordField/index.dart';
@@ -74,53 +75,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(children: <Widget>[
-        Positioned(
-          child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.6,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                Colors.orange[900],
-                Colors.orange[800],
-                Colors.orange[400]
-              ]))),
-        ),
-        Positioned(
-          top: 80.0,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+        Colors.orange[900],
+        Colors.orange[800],
+        Colors.orange[400]
+      ])),
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsetsDirectional.only(top: 48.0, bottom: 16.0),
             child: Column(children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(bottom: 16.0),
-                height: 150.0,
-                padding: EdgeInsets.only(bottom: 1),
-                child: Image.asset('lib/assets/images/logo.png'),
-              ),
-              Text('Start rocking today!',
+              Text('Register',
                   style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 40.0,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: _montserratFontFamily)),
+              Text('Start rocking today!',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontFamily: _montserratFontFamily)),
             ]),
           ),
-        ),
-        Positioned(
-          top: 320.0,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0)),
-            ),
-            child: Column(
-              children: <Widget>[
+          Expanded(
+                      child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0)),
+              ),
+              child: Column(children: <Widget>[
                 NormalTextField(
                   label: "Name",
                   controller: _controllers[0],
@@ -144,7 +138,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Password",
                   controller: _controllers[3],
                   onChangeFoo: _validatePassword,
-                  errorText: r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
+                  errorText:
+                      r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
                 ),
                 PasswordField(
                   label: "Confirm Password",
@@ -159,19 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: Colors.orangeAccent[700]),
                   child: FlatButton(
                       onPressed: () {
-                        bool registrationOk = true;
-
-                        for (int i = 0;
-                            registrationOk && i < _validations.length;
-                            i++) {
-                          registrationOk = _validations[i];
-                        }
-
-                        if (registrationOk) {
-                          print('REGISTRADO');
-                        } else {
-                          print('No registrasdo :C');
-                        }
+                        print("asdas");
                       },
                       child: Text(
                         'REGISTER',
@@ -181,12 +164,145 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 20.0,
                             fontFamily: _montserratFontFamily),
                       )),
-                )
-              ],
+                ),
+                Container(
+                  margin: EdgeInsetsDirectional.only(top: 16.0),
+                    child: RichText(
+                        text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.grey[700],
+                              fontFamily: 'Montserrat',
+                            ),
+                            children: <TextSpan>[
+                      TextSpan(text: "Have an account? "),
+                      TextSpan(
+                          text: "Login",
+                          style: TextStyle(
+                              color: Colors.orangeAccent[400],
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()..onTap = () { Navigator.pop(context); })
+                    ])))
+              ]),
+            ),
+          )
+        ],
+      ),
+    )));
+    /*return Material(
+      child: Stack(children: <Widget>[
+        Positioned(
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.6,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                Colors.orange[900],
+                Colors.orange[800],
+                Colors.orange[400]
+              ]))),
+        ),
+        Positioned(
+          top: 48.0,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(children: <Widget>[
+              Text('Register', style: TextStyle(
+                      fontSize: 40.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: _montserratFontFamily)),
+              Text('Start rocking today!',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontFamily: _montserratFontFamily)),
+            ]),
+          ),
+        ),
+        Positioned(
+          top: 152.0,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0)),
+            ),
+            child: SingleChildScrollView(
+                          child: Column(
+                children: <Widget>[
+                  NormalTextField(
+                    label: "Name",
+                    controller: _controllers[0],
+                    onChangeFoo: _validateName,
+                    errorText: 'Please enter your name',
+                    flag: _validations[0],
+                  ),
+                  NormalTextField(
+                    label: "Username",
+                    controller: _controllers[1],
+                    errorText: 'Please enter a valid username, avoid @ and spaces',
+                    onChangeFoo: _validateUsername,
+                  ),
+                  NormalTextField(
+                    label: "Email",
+                    controller: _controllers[2],
+                    onChangeFoo: _validateEmail,
+                    errorText: 'Please enter a valid email',
+                  ),
+                  PasswordField(
+                    label: "Password",
+                    controller: _controllers[3],
+                    onChangeFoo: _validatePassword,
+                    errorText: r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
+                  ),
+                  PasswordField(
+                    label: "Confirm Password",
+                    controller: _controllers[4],
+                    onChangeFoo: _validatePasswordConfirmation,
+                    errorText: 'Passwords are different',
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        color: Colors.orangeAccent[700]),
+                    child: FlatButton(
+                        onPressed: () {
+                          bool registrationOk = true;
+
+                          for (int i = 0;
+                              registrationOk && i < _validations.length;
+                              i++) {
+                            registrationOk = _validations[i];
+                          }
+
+                          if (registrationOk) {
+                            print('REGISTRADO');
+                          } else {
+                            print('No registrasdo :C');
+                          }
+                        },
+                        child: Text(
+                          'REGISTER',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              fontFamily: _montserratFontFamily),
+                        )),
+                  )
+                , Text("Have an account? Login")],
+              ),
             ),
           ),
         ),
       ]),
-    );
+    );*/
   }
 }

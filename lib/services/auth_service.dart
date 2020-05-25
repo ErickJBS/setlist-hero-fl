@@ -21,6 +21,8 @@ class AuthService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      print(data);
+
       await saveAuthToken(data['token']);
 
       return User.fromMap(data['user']);
