@@ -21,8 +21,7 @@ class AuthService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
-
+      
       await saveAuthToken(data['token']);
 
       return User.fromMap(data['user']);
@@ -31,7 +30,7 @@ class AuthService {
     }
   }
 
-  Future<User> register(String email, { String username, String password, String displayName }) async {
+  Future<User> register({String email, String username, String password, String displayName }) async {
     var url = '$apiUrl/auth/register';
     var body = {
       'email': email,
@@ -39,7 +38,7 @@ class AuthService {
       'username': username,
       'password': password
     };
-    var response = await http.post(url, body: body);
+    var response = await http.post(url, headers: {'content-type': 'application/json'}, body: jsonEncode(body));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
