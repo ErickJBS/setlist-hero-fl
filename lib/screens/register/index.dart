@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _validatePasswordConfirmation(String s) {
     setState(() {
       _touchedPasswordConfirmationTextfield = true;
-      _validationPassword = s == _controllerPassword.text;
+      _validationPasswordConfirmation = s == _controllerPassword.text;
     });
 
     print(_validationPasswordConfirmation);
