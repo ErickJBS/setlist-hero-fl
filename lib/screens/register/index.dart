@@ -108,7 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _validationEmail &&
         _validationPassword &&
         _validationPasswordConfirmation) {
-
       dynamic result = await _auth.register(
           email: _controllerEmail.text.toString().trim(),
           username: _controllerUsername.text.toString().trim(),
@@ -118,7 +117,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (result == null) {
         print("NO SE PUDO REGISTRAR");
       } else {
-        await _auth.loginWithPassword(_controllerEmail.text.toString().trim(), _controllerPassword.text.toString().trim());
+        await _auth.loginWithPassword(_controllerEmail.text.toString().trim(),
+            _controllerPassword.text.toString().trim());
         Navigator.popAndPushNamed(context, homeRoute);
       }
     } else {
@@ -136,19 +136,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-            child: Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Colors.orange[900],
-        Colors.orange[800],
-        Colors.orange[400]
-      ])),
-      child: Column(
-        children: <Widget>[
-          Container(
+        body: Stack(children: <Widget>[
+      Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Colors.orange[900],
+              Colors.orange[800],
+              Colors.orange[400]
+            ]),
+          ),
+          child: Container(
             margin: EdgeInsetsDirectional.only(top: 48.0, bottom: 16.0),
             child: Column(children: <Widget>[
               Text('Register',
@@ -163,99 +162,106 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: Colors.white,
                       fontFamily: _montserratFontFamily)),
             ]),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+          )),
+      DraggableScrollableSheet(
+          initialChildSize: 0.75,
+          minChildSize: 0.75,
+          maxChildSize: 1,
+          builder: (context, scrollController) {
+            return Container(
+              padding: EdgeInsets.all(30.0),
               width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0)),
               ),
-              child: Column(children: <Widget>[
-                NormalTextField(
-                  label: "Name",
-                  controller: _controllerDisplayName,
-                  onChangeFoo: _validateDisplayName,
-                  errorMessage: 'Please enter your name',
-                  flag: _touchedDisplaynameTextfield && !_validationDisplayName,
-                ),
-                NormalTextField(
-                  label: "Username",
-                  controller: _controllerUsername,
-                  errorMessage:
-                      'Please enter a valid username, avoid \'@\' and spaces',
-                  onChangeFoo: _validateUsername,
-                  flag: _touchedUsernameTextfield && !_validationUsername,
-                ),
-                NormalTextField(
-                  label: "Email",
-                  controller: _controllerEmail,
-                  onChangeFoo: _validateEmail,
-                  errorMessage: 'Please enter a valid email',
-                  flag: _touchedEmailTextfield && !_validationEmail,
-                ),
-                PasswordField(
-                  label: "Password",
-                  controller: _controllerPassword,
-                  onChangeFoo: _validatePassword,
-                  flag: _touchedPasswordTextfield && !_validationPassword,
-                  errorMessage:
-                      r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
-                ),
-                PasswordField(
-                  label: "Confirm Password",
-                  controller: _controllerPasswordConfirmation,
-                  onChangeFoo: _validatePasswordConfirmation,
-                  errorMessage: 'Passwords are different',
-                  flag: _touchedPasswordConfirmationTextfield &&
-                      !_validationPasswordConfirmation,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      color: Colors.orangeAccent[700]),
-                  child: FlatButton(
-                      onPressed: _registerUser,
-                      child: Text(
-                        'REGISTER',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            fontFamily: _montserratFontFamily),
-                      )),
-                ),
-                Container(
-                    margin: EdgeInsetsDirectional.only(top: 16.0),
-                    child: RichText(
-                        text: TextSpan(
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.grey[700],
-                              fontFamily: 'Montserrat',
-                            ),
-                            children: <TextSpan>[
-                          TextSpan(text: "Have an account? "),
-                          TextSpan(
-                              text: "Login",
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: Column(children: <Widget>[
+                  NormalTextField(
+                    label: "Name",
+                    controller: _controllerDisplayName,
+                    onChangeFoo: _validateDisplayName,
+                    errorMessage: 'Please enter your name',
+                    flag:
+                        _touchedDisplaynameTextfield && !_validationDisplayName,
+                  ),
+                  NormalTextField(
+                    label: "Username",
+                    controller: _controllerUsername,
+                    errorMessage:
+                        'Please enter a valid username, avoid \'@\' and spaces',
+                    onChangeFoo: _validateUsername,
+                    flag: _touchedUsernameTextfield && !_validationUsername,
+                  ),
+                  NormalTextField(
+                    label: "Email",
+                    controller: _controllerEmail,
+                    onChangeFoo: _validateEmail,
+                    errorMessage: 'Please enter a valid email',
+                    flag: _touchedEmailTextfield && !_validationEmail,
+                  ),
+                  PasswordField(
+                    label: "Password",
+                    controller: _controllerPassword,
+                    onChangeFoo: _validatePassword,
+                    flag: _touchedPasswordTextfield && !_validationPassword,
+                    errorMessage:
+                        r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
+                  ),
+                  PasswordField(
+                    label: "Confirm Password",
+                    controller: _controllerPasswordConfirmation,
+                    onChangeFoo: _validatePasswordConfirmation,
+                    errorMessage: 'Passwords are different',
+                    flag: _touchedPasswordConfirmationTextfield &&
+                        !_validationPasswordConfirmation,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        color: Colors.orangeAccent[700]),
+                    child: FlatButton(
+                        onPressed: _registerUser,
+                        child: Text(
+                          'REGISTER',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              fontFamily: _montserratFontFamily),
+                        )),
+                  ),
+                  Container(
+                      margin: EdgeInsetsDirectional.only(top: 16.0),
+                      child: RichText(
+                          text: TextSpan(
                               style: TextStyle(
-                                  color: Colors.orangeAccent[400],
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pop(context);
-                                })
-                        ])))
-              ]),
-            ),
-          )
-        ],
-      ),
-    )));
+                                fontSize: 16.0,
+                                color: Colors.grey[700],
+                                fontFamily: 'Montserrat',
+                              ),
+                              children: <TextSpan>[
+                            TextSpan(text: "Have an account? "),
+                            TextSpan(
+                                text: "Login",
+                                style: TextStyle(
+                                    color: Colors.orangeAccent[400],
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pop(context);
+                                  })
+                          ])))
+                ]),
+              ),
+            );
+          }),
+    ]));
   }
 }
