@@ -1,42 +1,68 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:setlistherofl/screens/home/home_screen.dart';
+import 'package:setlistherofl/screens/home/profile_page.dart';
+
+class BottomBar extends StatefulWidget {
+  //final int indexTap;
+
+  //BottomBar({this.indexTap});
+  @override
+  _BottomBarState createState() => _BottomBarState();
+}
+
+class _BottomBarState extends State<BottomBar> {
+  int _selectedIndexItem = 0;
+  final List<Widget> _children = [
+    HomeScreen(),
+    Profile_Page(),
+  ];
 
 
-class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      notchMargin: 6,
-      color: Colors.transparent,
-      elevation: 9,
-      clipBehavior: Clip.antiAlias,
+    return Scaffold(
+      body: _children[_selectedIndexItem],
+      bottomNavigationBar: Row(
+        children: <Widget>[
+         buildNavigationBarItems(Icons.home, 0),
+          buildNavigationBarItems(Icons.person_outline, 1),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNavigationBarItems(IconData icon, int index){
+
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          _selectedIndexItem = index;
+        });
+      },
       child: Container(
         height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+        width: MediaQuery.of(context).size.width/2,
+        decoration: index == _selectedIndexItem ? BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 4, color: Colors.orange)
           ),
-            color: Colors.white
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Icon(Icons.home, color: Colors.orange,),
-                  Icon(Icons.person_outline, color: Colors.grey[400]),
-                ],
-              ),
-            ),
+          gradient: LinearGradient(colors: [
+            Colors.orange.withOpacity(0.3),
+            Colors.orange.withOpacity(0.015),
           ],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
+          //color: index == _selectedIndexItem ? Colors.orange : Colors.white,
+        ) : BoxDecoration(),
+        child: Icon(
+          icon,
+          color: index == _selectedIndexItem ? Colors.black : Colors.grey[400],
         ),
       ),
     );
   }
 }
+
+
