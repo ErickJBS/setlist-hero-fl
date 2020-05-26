@@ -19,10 +19,12 @@ class AuthService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-
+      final user = User.fromMap(data['user']);
+      
       await saveAuthToken(data['token']);
+      await saveCurrentUser(user);
 
-      return User.fromMap(data['user']);
+      return user;
     } else {
       return null;
     }
@@ -82,7 +84,15 @@ class AuthService {
     final userId = result.queryParameters['userId'];
 
     await saveAuthToken(token);
-    return getUser(userId);
+    final user = await getUser(userId);
+    await saveCurrentUser(user);
+
+    return user;
+  }
+
+  Future<void> logout() async {
+    var preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
   }
 
   Future<void> saveAuthToken(String token) async {
@@ -93,5 +103,17 @@ class AuthService {
   Future<String> getAuthToken() async {
     var preferences = await SharedPreferences.getInstance();
     return preferences.get('token');
+  }
+
+   Future<void> saveCurrentUser(User user) async {
+    var preferences = await SharedPreferences.getInstance();
+    final json = jsonEncode(user.toMap());
+    await preferences.setString('user', json);
+  }
+
+  Future<User> getCurrentUser() async {
+    var preferences = await SharedPreferences.getInstance();
+    final json = preferences.get('user');
+    return User.fromMap(jsonDecode(json));
   }
 }

@@ -6,7 +6,7 @@ import './screens/register/index.dart';
 import './screens/login/index.dart';
 
 const String splashRoute = '/';
-const String homeRoute = 'home';
+const String homeRoute = 'Initial';
 const String registerRoute = 'register';
 const String loginRoute = 'login';
 
@@ -17,7 +17,7 @@ class Router {
         return MaterialPageRoute(builder: (_) => SplashScreen());
 
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => InitialScreen());
 
       case registerRoute:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
