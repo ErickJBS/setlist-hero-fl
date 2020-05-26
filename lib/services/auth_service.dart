@@ -46,6 +46,8 @@ class AuthService {
           headers: {'content-type': 'application/json'},
           body: jsonEncode(body));
 
+      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 

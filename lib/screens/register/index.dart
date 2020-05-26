@@ -35,7 +35,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var _touchedPasswordTextfield = false;
   var _touchedPasswordConfirmationTextfield = false;
 
-  String _errorMessagePassword = "";
+  final String _errorMessageDisplayName = 'Please enter your name';
+  final String _errorMessageUsername =
+      'Please enter a valid username, avoid \'@\' and spaces';
+  final String _errorMessageEmail = 'Please enter a valid email';
+  final String _errorMessagePasswordConfirmation = 'Passwords are different';
+  final String _errorMessagePasswordBase = 'Password needs at least';
+  final String _errorMessagePasswordCapitalLetter = ' one capital letter';
+  final String _errorMessagePasswordLowerLetter = 'one lowercase letter';
+  final String _errorMessagePasswordNumber = 'one number';
+  final String _errorMessagePasswordSpecialCharacter =
+      r'one special character (! @ # $ % ^ & *)';
+  final String _errorMessagePasswordLength = '8 characters long';
+  String _errorMessagePassword = '';
+  String _errorMessageResitration = '';
 
   final AuthService _auth = locator<AuthService>();
 
@@ -64,7 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _validateDisplayName(String s) {
     setState(() {
       _touchedDisplaynameTextfield = true;
-      _validationDisplayName = s.isNotEmpty || s.trim().isNotEmpty;
+      _validationDisplayName =
+          s.isNotEmpty && s.trimLeft().isNotEmpty && s.trimRight().isNotEmpty;
     });
 
     print(_validationDisplayName);
@@ -82,6 +96,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _validatePassword(String s) {
+    _errorMessagePassword = _errorMessagePasswordBase;
+
     setState(() {
       _touchedPasswordTextfield = true;
       _validationPassword = s.length >= 8 &&
@@ -89,6 +105,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
           s.contains(RegExp(r'[a-z]')) &&
           s.contains(RegExp(r'[0-9]')) &&
           s.contains(RegExp(r'[!@#$%^&*.]'));
+
+      if (!s.contains(RegExp(r'[A-Z]'))) {
+        _errorMessagePassword += " " + _errorMessagePasswordCapitalLetter;
+      } else if (!s.contains(RegExp(r'[a-z]'))) {
+        _errorMessagePassword += " " + _errorMessagePasswordLowerLetter;
+      } else if (!s.contains(RegExp(r'[0-9]'))) {
+        _errorMessagePassword += " " + _errorMessagePasswordNumber;
+      } else if (!s.contains(RegExp(r'[!@#$%^&*.]'))) {
+        _errorMessagePassword = "Needs at least " + _errorMessagePasswordSpecialCharacter;
+      } else if (s.length < 8) {
+        _errorMessagePassword += " " + _errorMessagePasswordLength;
+      }
     });
     print(_validationPassword);
   }
@@ -103,11 +131,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _registerUser() async {
+    setState(() {
+      _errorMessageResitration = '';
+    });
+
     if (_validationDisplayName &&
         _validationUsername &&
         _validationEmail &&
         _validationPassword &&
         _validationPasswordConfirmation) {
+
+      try {
       dynamic result = await _auth.register(
           email: _controllerEmail.text.toString().trim(),
           username: _controllerUsername.text.toString().trim(),
@@ -115,11 +149,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
           displayName: _controllerDisplayName.text.toString().trim());
 
       if (result == null) {
-        print("NO SE PUDO REGISTRAR");
+        setState(() {
+          _errorMessageResitration = 'Already used email or username';
+        });
       } else {
         await _auth.loginWithPassword(_controllerEmail.text.toString().trim(),
             _controllerPassword.text.toString().trim());
         Navigator.popAndPushNamed(context, homeRoute);
+      }
+      } catch (e) {
+        setState(() {
+          _errorMessageResitration = 'Something went wrong, try again later';
+        });
       }
     } else {
       print("asd");
@@ -139,7 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: Stack(children: <Widget>[
       Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
               Colors.orange[900],
@@ -166,7 +206,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       DraggableScrollableSheet(
           initialChildSize: 0.75,
           minChildSize: 0.75,
-          maxChildSize: 1,
+          maxChildSize: 0.95,
+          expand: true,
           builder: (context, scrollController) {
             return Container(
               padding: EdgeInsets.all(30.0),
@@ -185,15 +226,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: "Name",
                     controller: _controllerDisplayName,
                     onChangeFoo: _validateDisplayName,
-                    errorMessage: 'Please enter your name',
+                    errorMessage: _errorMessageDisplayName,
                     flag:
                         _touchedDisplaynameTextfield && !_validationDisplayName,
                   ),
                   NormalTextField(
                     label: "Username",
                     controller: _controllerUsername,
-                    errorMessage:
-                        'Please enter a valid username, avoid \'@\' and spaces',
+                    errorMessage: _errorMessageUsername,
                     onChangeFoo: _validateUsername,
                     flag: _touchedUsernameTextfield && !_validationUsername,
                   ),
@@ -201,7 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: "Email",
                     controller: _controllerEmail,
                     onChangeFoo: _validateEmail,
-                    errorMessage: 'Please enter a valid email',
+                    errorMessage: _errorMessageEmail,
                     flag: _touchedEmailTextfield && !_validationEmail,
                   ),
                   PasswordField(
@@ -209,14 +249,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: _controllerPassword,
                     onChangeFoo: _validatePassword,
                     flag: _touchedPasswordTextfield && !_validationPassword,
-                    errorMessage:
-                        r'Password must have at least one capital letter, one lowercase letter, one number and one special character (! @ # $ % ^ & *)',
+                    errorMessage: _errorMessagePassword,
                   ),
                   PasswordField(
                     label: "Confirm Password",
                     controller: _controllerPasswordConfirmation,
                     onChangeFoo: _validatePasswordConfirmation,
-                    errorMessage: 'Passwords are different',
+                    errorMessage: _errorMessagePasswordConfirmation,
                     flag: _touchedPasswordConfirmationTextfield &&
                         !_validationPasswordConfirmation,
                   ),
@@ -250,6 +289,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             TextSpan(
                                 text: "Login",
                                 style: TextStyle(
+                                  fontFamily: _montserratFontFamily,
                                     color: Colors.orangeAccent[400],
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline),
@@ -257,7 +297,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ..onTap = () {
                                     Navigator.pop(context);
                                   })
-                          ])))
+                          ]))),
+                          Container(margin: EdgeInsetsDirectional.only(top: 16.0), child: Text(_errorMessageResitration, style: TextStyle(fontFamily: _montserratFontFamily, color: Colors.red, ),),)
                 ]),
               ),
             );
