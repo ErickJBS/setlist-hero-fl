@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/screens/home/widgets/BuildCards.dart';
-class EventPage extends StatefulWidget {
+
+class EventPageMonth extends StatefulWidget {
   @override
-  _EventPageState createState() => _EventPageState();
+  _EventPageMonthState createState() => _EventPageMonthState();
 }
 
-class _EventPageState extends State<EventPage> {
+class _EventPageMonthState extends State<EventPageMonth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +26,14 @@ class _EventPageState extends State<EventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     BuildCard(
-                      band: 'One More Light Tour',
-                      date: 'May 26th',
-                      tourName: 'One More Light Tour',
+                      band: 'Dua Lipa',
+                      date: 'May 29th',
+                      tourName: 'Nostalgia Tour',
+                    ),
+                    BuildCard(
+                      band: 'Paramore',
+                      date: 'May 30th',
+                      tourName: 'Laughter Tour',
                     ),
                   ],
                 ),
@@ -35,7 +41,8 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ],
-    ),
+      ),
     );
   }
 }
+

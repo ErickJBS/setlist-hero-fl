@@ -5,9 +5,9 @@ import 'package:setlistherofl/widgets/bottom_bar_home_screen/bottom_bar.dart';
 import 'package:setlistherofl/screens/home/Event_page.dart';
 
 class EventoSets extends StatefulWidget {
-  final nameBand, tourName, date, assetPath;
+  final nameBand, tourName, date;
 
-  EventoSets ({this.assetPath, this.date, this.tourName, this.nameBand});
+  EventoSets ({this.date, this.tourName, this.nameBand});
   @override
   _EventoSetsState createState() => _EventoSetsState();
 }
@@ -74,14 +74,6 @@ class _EventoSetsState extends State<EventoSets> {
             ),
           ),
           SizedBox(height: 5.0),
-          Hero(
-              tag: widget.assetPath,
-              child: Image.asset(widget.assetPath,
-                  height: 150.0,
-                  width: 100.0,
-                  fit: BoxFit.contain
-              )
-          ),
         ],
       ),
 

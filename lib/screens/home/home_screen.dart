@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:setlistherofl/screens/home/Event_page.dart';
+import 'package:setlistherofl/screens/home/Event_page2Month.dart';
+import 'package:setlistherofl/screens/home/Event_page3Year.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -96,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               controller: _tabController,
               children: [
                 EventPage(),
-                EventPage(),
-                EventPage(),
+                EventPageMonth(),
+                EventPageYear(),
               ]
             )
           )
