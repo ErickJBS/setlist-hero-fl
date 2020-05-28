@@ -27,8 +27,8 @@ class Router {
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginScreen());
 
-      case songViewer:
-        return MaterialPageRoute(builder: (_) => SongViewerScreen());
+//      case songViewer:
+//        return MaterialPageRoute(builder: (_) => SongViewerScreen());
 
       default:
         return MaterialPageRoute(

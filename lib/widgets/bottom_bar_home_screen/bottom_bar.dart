@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/screens/home/home_screen.dart';
-import 'package:setlistherofl/screens/home/profile_page.dart';
+import 'package:setlistherofl/screens/profile/profile_page.dart';
 
 class BottomBar extends StatefulWidget {
   //final int indexTap;

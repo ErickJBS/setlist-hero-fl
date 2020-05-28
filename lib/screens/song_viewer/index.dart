@@ -3,10 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:setlistherofl/screens/home/event_screen.dart';
 
 class SongViewerScreen extends StatefulWidget {
+  Songs _songs;
+  SongViewerScreen(Songs songs){
+    _songs = songs;
+  }
+
   @override
-  _SongViewerState createState() => _SongViewerState();
+  State<StatefulWidget> createState(){
+    return _SongViewerState(_songs);
+  }
+
+//  @override
+//  _SongViewerState createState() => _SongViewerState(_songs);
 }
 
 const String _montserratFontFamily = 'Montserrat';
@@ -16,6 +27,11 @@ class _SongViewerState extends State<SongViewerScreen> {
   int _selectedIndex = 0;
   String _selectedSet;
   String _selectedSong;
+
+  Songs _songs;
+  _SongViewerState(Songs songs){
+    _songs = songs;
+  }
 
   void _onItemTapped(int index) {
     setState(() {

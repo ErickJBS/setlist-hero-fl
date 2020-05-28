@@ -25,7 +25,7 @@ class _EventPageState extends State<EventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     BuildCard(
-                      band: 'One More Light Tour',
+                      band: 'Linkin Park',
                       date: 'May 26th',
                       tourName: 'One More Light Tour',
                     ),
