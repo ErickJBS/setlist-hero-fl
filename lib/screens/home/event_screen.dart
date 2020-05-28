@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/screens/song_viewer/index.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class EventoSets extends StatefulWidget {
@@ -22,33 +21,23 @@ class _EventoSetsState extends State<EventoSets> {
   List<Songs> songs = new List();
   
   _EventoSetsState(){
-    songs.add(new Songs(set: 'A', songName: 'The catalyst'));
-    songs.add(new Songs(set: 'A',songName: 'Welcome'));
-    songs.add(new Songs(set: 'A',songName: 'Numb'));
-    songs.add(new Songs(set: 'A',songName: 'In the end'));
-    songs.add(new Songs(set: 'B',songName: 'Castle of Glass'));
-    songs.add(new Songs(set: 'B',songName: 'Final Masquerade'));
-    songs.add(new Songs(set: 'B',songName: 'From the inside'));
-    songs.add(new Songs(set: 'B',songName: 'Faint'));
-    songs.add(new Songs(set: 'B',songName: 'Given Up'));
-    songs.add(new Songs(set: 'B',songName: 'Waiting for the end'));
-    songs.add(new Songs(set: 'C',songName: 'Heavy'));
-    songs.add(new Songs(set: 'C',songName: 'Guilty all the same'));
-    songs.add(new Songs(set: 'C',songName: 'Bleed it out'));
+    songs.add(new Songs(set: 'Set A', songName: 'The catalyst'));
+    songs.add(new Songs(set: 'Set A',songName: 'Welcome'));
+    songs.add(new Songs(set: 'Set A',songName: 'Numb'));
+    songs.add(new Songs(set: 'Set A',songName: 'In the end'));
+    songs.add(new Songs(set: 'Set B',songName: 'Castle of Glass'));
+    songs.add(new Songs(set: 'Set B',songName: 'Final Masquerade'));
+    songs.add(new Songs(set: 'Set B',songName: 'From the inside'));
+    songs.add(new Songs(set: 'Set B',songName: 'Faint'));
+    songs.add(new Songs(set: 'Set B',songName: 'Given Up'));
+    songs.add(new Songs(set: 'Set B',songName: 'Waiting for the end'));
+    songs.add(new Songs(set: 'Set C',songName: 'Heavy'));
+    songs.add(new Songs(set: 'Set C',songName: 'Guilty all the same'));
+    songs.add(new Songs(set: 'Set C',songName: 'Bleed it out'));
 
   }
 
-  void _sets (index){
-    if(songs[index].set == 'A') {
-      Text(songs[index].songName);
-    } else if(songs[index].set == 'B'){
-      Text(songs[index].songName);
-    }else if(songs[index].set == 'C'){
-      Text(songs[index].songName);
-    }else{
-      Text(songs[index].songName);
-    }
-  }
+
 
   Widget MySongsIndex(BuildContext context, int index){
 
@@ -63,11 +52,11 @@ class _EventoSetsState extends State<EventoSets> {
           margin: EdgeInsets.fromLTRB(16, 5, 16, 5),
           child: Row(
             children: <Widget>[
-//            SizedBox(height: 8.0),
-//          Padding(
-//            padding: EdgeInsets.only(left: 20.0),
-//            child: Text(),  //Imprimir número de canciópn
-//          ),
+            SizedBox(height: 8.0),
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: Text(songs[index].set),  //Imprimir número de canciópn
+          ),
             SizedBox(height: 5.0),
               Padding(
                 padding: EdgeInsets.all(16),
