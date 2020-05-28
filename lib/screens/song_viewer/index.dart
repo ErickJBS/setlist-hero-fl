@@ -128,11 +128,13 @@ class _SongViewerState extends State<SongViewerScreen> {
     );
 
     var fabIncreaseFont = FloatingActionButton(
+      heroTag: 'increase',
       onPressed: _increaseFontSize,
       child: Icon(MdiIcons.formatFontSizeIncrease),
     );
 
     var fabDecreaseFont = FloatingActionButton(
+      heroTag: 'decrease',
       mini: true,
       backgroundColor: Colors.grey[100],
       onPressed: _decreaseFontSize,
