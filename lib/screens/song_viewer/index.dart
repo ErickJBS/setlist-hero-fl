@@ -7,12 +7,12 @@ import 'package:setlistherofl/screens/home/event_screen.dart';
 
 class SongViewerScreen extends StatefulWidget {
   Songs _songs;
-  SongViewerScreen(Songs songs){
+  SongViewerScreen(Songs songs) {
     _songs = songs;
   }
 
   @override
-  State<StatefulWidget> createState(){
+  State<StatefulWidget> createState() {
     return _SongViewerState(_songs);
   }
 
@@ -29,7 +29,7 @@ class _SongViewerState extends State<SongViewerScreen> {
   String _selectedSong;
 
   Songs _songs;
-  _SongViewerState(Songs songs){
+  _SongViewerState(Songs songs) {
     _songs = songs;
   }
 
@@ -102,14 +102,14 @@ class _SongViewerState extends State<SongViewerScreen> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[_buildDropdown(l1, l1[0]), _buildDropdown(l2, l2[0])],
-      ),
+      centerTitle: true,
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+      title: Text('Set A - Song B', style: TextStyle(fontFamily: _montserratFontFamily, color: Colors.black87),),
       leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black87,),
           onPressed: () {
-            print('BACK');
+            Navigator.pop(context);
           }),
     );
 
@@ -129,6 +129,7 @@ class _SongViewerState extends State<SongViewerScreen> {
 
     var fabIncreaseFont = FloatingActionButton(
       heroTag: 'increase',
+      backgroundColor: Colors.orangeAccent[700],
       onPressed: _increaseFontSize,
       child: Icon(MdiIcons.formatFontSizeIncrease),
     );
@@ -194,7 +195,48 @@ I want, I want, I want, I want to break free<br></p>
 
     Map<String, Style> d = Map();
 
-    d['p'] = Style(fontSize: FontSize(_viewerFontSize),);
+    d['p'] = Style(
+      fontSize: FontSize(_viewerFontSize),
+    );
+
+    d['span '] = Style(
+      fontWeight: FontWeight.bold,
+      color: Colors.amber,
+      backgroundColor: Colors.red,
+    );
+
+    final controller = PageController(initialPage: 1 , viewportFraction: 0.9);
+
+    var prevSetButton = Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[IconButton(onPressed: () {print("Hello");}, iconSize: 80, icon: Icon(MdiIcons.arrowLeftCircle)), Text("Go to previous set")
+    ],),);
+
+    var nextSetButton = Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[IconButton(onPressed: () {print("Hello");}, iconSize: 80, icon: Icon(MdiIcons.arrowRightCircle)), Text("Go to next set")
+    ],),);
+
+    var some = Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+        child: Card(
+          child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Html(data: acdcHighwayToHell,
+            style: d,),
+                    ),
+          ),
+        ),
+      );
+
+    var a = <Widget> [];
+
+    a.add(prevSetButton);
+    for (int i = 0; i < 10; i++) a.add(some);
+    a.add(nextSetButton);
+
+    var pageView = PageView(
+
+      controller: controller,
+      children: a,
+    );
 
     return Scaffold(
       appBar: appBar,
@@ -203,14 +245,10 @@ I want, I want, I want, I want to break free<br></p>
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: <Widget>[
-            SingleChildScrollView(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Html(
-                data: acdcHighwayToHell,
-                style: d,
-              ),
-            )),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: pageView,
+            ),
             Positioned(bottom: 8.0, right: 8.0, child: fontSizeButtons),
           ],
         ),
