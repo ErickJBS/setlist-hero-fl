@@ -1,12 +1,23 @@
+import 'dart:async';
+
+import 'package:html/parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+import 'package:jsonml/html2jsonml.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:setlistherofl/screens/home/event_screen.dart';
+import 'package:setlistherofl/screens/song_viewer/TextSpanBuilder.dart';
+import 'package:setlistherofl/screens/song_viewer/RichTextTokenizer.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/ChordsViewer.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/LyricsViewer.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/SheetsViewer.dart';
+import 'package:sheet_music/sheet_music.dart';
+import 'package:tokenizer/token.dart';
+import 'package:tokenizer/tokenizer.dart';
 
 class SongViewerScreen extends StatefulWidget {
   Songs _songs;
+
   SongViewerScreen(Songs songs) {
     _songs = songs;
   }
@@ -21,15 +32,17 @@ class SongViewerScreen extends StatefulWidget {
 }
 
 const String _montserratFontFamily = 'Montserrat';
-var _viewerFontSize = 8.0;
+double _viewerFontSize = 8.0;
 
 class _SongViewerState extends State<SongViewerScreen> {
   int _selectedIndex = 0;
   String _selectedSet;
   String _selectedSong;
 
+  final tabs = [LyricsViewer(), ChrodsViewer(), SheetsViewer()];
+
   Songs _songs;
-  _SongViewerState(Songs songs) {
+  _SongViewerState(Songs songs) {    
     _songs = songs;
   }
 
@@ -39,75 +52,34 @@ class _SongViewerState extends State<SongViewerScreen> {
     });
   }
 
-  void _increaseFontSize() {
-    print(_viewerFontSize);
-    setState(() {
-      _viewerFontSize += 2.0;
-    });
-  }
-
-  void _decreaseFontSize() {
-    print(_viewerFontSize);
-    setState(() {
-      _viewerFontSize -= 2.0;
-    });
-  }
-
-  List<DropdownMenuItem<String>> _buildDropdownItems(List<String> list) {
-    List<DropdownMenuItem<String>> items = List<DropdownMenuItem<String>>();
-
-    for (String s in list) {
-      items.add(DropdownMenuItem(value: s, child: Text(s)));
-    }
-
-    //return items;
-    return list.map<DropdownMenuItem<String>>((value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(
-          value,
-          style: TextStyle(),
-        ),
-      );
-    }).toList();
-  }
-
-  Widget _buildDropdown(
-    List<String> items,
-    String initValue,
-  ) {
-    return DropdownButton<String>(
-        value: initValue,
-        icon: Icon(
-          Icons.arrow_drop_down,
-          color: Colors.white,
-        ),
-        dropdownColor: Theme.of(context).primaryColor,
-        elevation: 0,
-        style: TextStyle(color: Colors.white),
-        underline: Container(
-          height: 0,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            initValue = newValue;
-          });
-        },
-        items: _buildDropdownItems(items));
-  }
-
-  List<String> l1 = ['Act 1', 'Act 2', 'Act 3'];
-  List<String> l2 = ['I want to break free', 'Highway to hell'];
-
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
       centerTitle: true,
       elevation: 0.0,
       backgroundColor: Colors.white,
-      title: Text('Set A - Song B', style: TextStyle(fontFamily: _montserratFontFamily, color: Colors.black87),),
+      title: Column(
+        children: <Widget>[
+          Text(
+            'Song B',
+            style: TextStyle(
+                fontFamily: _montserratFontFamily, color: Colors.black87),
+          ),
+          Text(
+            'Set A',
+            style: TextStyle(
+                fontFamily: _montserratFontFamily,
+                color: Colors.black87,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w300),
+          ),
+        ],
+      ),
       leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black87,),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black87,
+          ),
           onPressed: () {
             Navigator.pop(context);
           }),
@@ -127,132 +99,9 @@ class _SongViewerState extends State<SongViewerScreen> {
       ],
     );
 
-    var fabIncreaseFont = FloatingActionButton(
-      heroTag: 'increase',
-      backgroundColor: Colors.orangeAccent[700],
-      onPressed: _increaseFontSize,
-      child: Icon(MdiIcons.formatFontSizeIncrease),
-    );
-
-    var fabDecreaseFont = FloatingActionButton(
-      heroTag: 'decrease',
-      mini: true,
-      backgroundColor: Colors.grey[100],
-      onPressed: _decreaseFontSize,
-      child: Icon(
-        MdiIcons.formatFontSizeDecrease,
-        color: Colors.grey[800],
-      ),
-    );
-
-    var fontSizeButtons = Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: fabIncreaseFont,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: fabDecreaseFont,
-        )
-      ],
-    );
-
-    var acdcHighwayToHell = '''
-    <p>Living easy, living free<br /> Season ticket on a one-way ride<br /> Asking nothing, leave me be<br /> Taking everything in my stride<br /> <strong>Don't need reason</strong>, don't need rhyme<br /> Ain't nothing I would rather do<br /> Going down, party time<br /> My friends are gonna be there too<br /><br /> I'm on the highway to hell<br /> On the highway to hell<br /> Highway to hell<br /> I'm on the highway to hell<br /><br /> <strong>No stop signs</strong>, speed limit<br /> Nobody's gonna slow me down<br /> Like a wheel, gonna spin it<br /> Nobody's gonna mess me around<br /> Hey Satan, paid my dues<br /> Playing in a rocking band<br /> Hey mama, look at me<br /> <strong>I'm on my way to the promised land, <em><span style="text-decoration: underline;">whoo!</span></em></strong><br /><br /> I'm on the highway to hell<br /> Highway to hell<br /> I'm on the highway to hell<br /> Highway to hell<br /><br /> <span style="text-decoration: underline; color: #ffffff; background-color: #ff0000;"><em><strong>Don't stop me</strong></em></span><br /><br /> I'm on the highway to hell<br /> On the highway to hell<br /> I'm on the highway to hell<br /> On the highway<br /> Yeah, highway to hell<br /> I'm on the highway to hell<br /> Highway to hell<br /> Highway to hell<br /><br /> And I'm going down<br /> All the way<br /> Whoa!<br /> I'm on the highway to hell</p>
-    ''';
-
-    var queenFree = '''
-    <p>I want to break free<br>
-I want to break free<br>
-I want to break free from your lies<br>
-You're so self satisfied I don't need you<br>
-I've got to break free<br>
-God knows, God knows I want to break free<br><br>
-I've fallen in love<br>
-I've fallen in love for the first time<br>
-And this time I know it's for real<br>
-I've fallen in love, yeah<br>
-God knows, God knows I've fallen in love<br><br>
-It's strange but it's true, yeah<br>
-I can't get over the way you love me like you do<br>
-But I have to be sure<br>
-When I walk out that door<br>
-Oh, how I want to be free, baby<br>
-Oh, how I want to be free<br>
-Oh, how I want to break free<br><br>
-But life still goes on<br>
-I can't get used to living without, living without<br>
-Living without you by my side<br>
-I don't want to live alone, hey<br>
-God knows, got to make it on my own<br><br>
-So baby can't you see<br>
-I've got to break free<br>
-I've got to break free<br>
-I want to break free, yeah<br>
-I want, I want, I want, I want to break free<br></p>
-    ''';
-
-    Map<String, Style> d = Map();
-
-    d['p'] = Style(
-      fontSize: FontSize(_viewerFontSize),
-    );
-
-    d['span '] = Style(
-      fontWeight: FontWeight.bold,
-      color: Colors.amber,
-      backgroundColor: Colors.red,
-    );
-
-    final controller = PageController(initialPage: 1 , viewportFraction: 0.9);
-
-    var prevSetButton = Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[IconButton(onPressed: () {print("Hello");}, iconSize: 80, icon: Icon(MdiIcons.arrowLeftCircle)), Text("Go to previous set")
-    ],),);
-
-    var nextSetButton = Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[IconButton(onPressed: () {print("Hello");}, iconSize: 80, icon: Icon(MdiIcons.arrowRightCircle)), Text("Go to next set")
-    ],),);
-
-    var some = Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
-        child: Card(
-          child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Html(data: acdcHighwayToHell,
-            style: d,),
-                    ),
-          ),
-        ),
-      );
-
-    var a = <Widget> [];
-
-    a.add(prevSetButton);
-    for (int i = 0; i < 10; i++) a.add(some);
-    a.add(nextSetButton);
-
-    var pageView = PageView(
-
-      controller: controller,
-      children: a,
-    );
-
     return Scaffold(
-      appBar: appBar,
-      bottomNavigationBar: bottomNavigatorBar,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: pageView,
-            ),
-            Positioned(bottom: 8.0, right: 8.0, child: fontSizeButtons),
-          ],
-        ),
-      ),
-    );
+        appBar: appBar,
+        bottomNavigationBar: bottomNavigatorBar,
+        body: tabs[_selectedIndex]);
   }
 }
