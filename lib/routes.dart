@@ -19,7 +19,7 @@ class Router {
         return MaterialPageRoute(builder: (_) => SplashScreen());
 
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => InitialScreen());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
 
       case registerRoute:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
