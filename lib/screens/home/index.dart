@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:setlistherofl/screens/home/home_screen.dart';
 import 'package:setlistherofl/widgets/bottom_bar_home_screen/bottom_bar.dart';
 
 class InitialScreen extends StatefulWidget {
@@ -10,7 +11,8 @@ class _InitialScreenState extends State<InitialScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BottomBar(),
+      //home: BottomBar(),  //cuando se implementen los usuarios se utilizara el navigation bar
+      home: HomeScreen(),
     );
   }
 }

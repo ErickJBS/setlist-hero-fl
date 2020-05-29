@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:setlistherofl/routes.dart';
 import 'package:setlistherofl/screens/home/Event_page.dart';
 import 'package:setlistherofl/screens/home/Event_page2Month.dart';
 import 'package:setlistherofl/screens/home/Event_page3Year.dart';
+import 'package:setlistherofl/services/auth_service.dart';
+import 'package:setlistherofl/service_locator.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -12,15 +15,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
   TabController _tabController;
-
+  static const String logout = 'logout';
+  final AuthService _auth = locator<AuthService>();
+  static const List<String> choices = <String>[  //En caso de que en el futuro haya más opciones
+    logout,
+  ];
   @override
   void initState(){
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
 
+  Future<void> _logout() async{
+    try{
+      await _auth.logout();
+    } catch(e){
+      print('Failed to signOut' + e.toString());
+    }
+  }
+
+  void _choiceAction(String choice){
+    if(choice == _HomeScreenState.logout) {
+      Navigator.pushNamedAndRemoveUntil(context, loginRoute, (Route route) => false);
+      _logout();
+    }//Aquí habría un elseif en dado caso que en el futuro agreguemos más opciones, como help, settings, etc
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -33,12 +56,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             ),
         ),
         actions: <Widget>[
-          IconButton(
+          PopupMenuButton<String>(
             icon: Icon(
               FontAwesomeIcons.ellipsisV,
               color: Colors.black87,
+              size: 18,
             ),
-            onPressed: (){},
+            onSelected: _choiceAction,
+            itemBuilder: (BuildContext context){
+              return _HomeScreenState.choices.map((String choice){
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
           ),
         ],
       ),
