@@ -37,11 +37,7 @@ class _EventoSetsState extends State<EventoSets> {
 
   }
 
-
-
   Widget MySongsIndex(BuildContext context, int index){
-
-
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => SongViewerScreen(songs[index])));
@@ -55,7 +51,7 @@ class _EventoSetsState extends State<EventoSets> {
             SizedBox(height: 8.0),
             Padding(
               padding: EdgeInsets.only(left: 20.0),
-              child: Text(songs[index].set),  //Imprimir número de canciópn
+              child: Text(songs[index].set),  //Imprimir Set o acto de canciópn
           ),
             SizedBox(height: 5.0),
               Padding(
