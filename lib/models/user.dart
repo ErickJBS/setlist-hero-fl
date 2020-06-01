@@ -23,4 +23,8 @@ class User {
       'authProvider': authProvider
     };
   }
+
+  static String get modelName {
+    return 'user';
+  }
 }
