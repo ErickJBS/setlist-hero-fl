@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:native_pdf_view/native_pdf_view.dart';
 
 class SheetsViewer extends StatefulWidget {
   @override
@@ -10,6 +11,22 @@ class SheetsViewer extends StatefulWidget {
 
 class _SheetsViewerState extends State<SheetsViewer> {
   final String _montserratFontFamily = 'Montserrat';
+  int _actualPageNumber = 1, _allPagesCount = 0;
+  PdfController _pdfController;
+
+  @override
+  void initState() {
+    _pdfController = PdfController(
+      document: PdfDocument.openAsset('assets/sample.pdf'),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+     _pdfController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +58,21 @@ class _SheetsViewerState extends State<SheetsViewer> {
       },
     );*/
 
-    return Center(
-     /* child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: <Widget>[right, left],),
-      ),*/
-      child: Text('Hello')
-    );
+    return PdfView(
+            documentLoader: Center(child: CircularProgressIndicator()),
+            pageLoader: Center(child: CircularProgressIndicator()),
+            controller: _pdfController,
+            onDocumentLoaded: (document) {
+              setState(() {
+                _allPagesCount = document.pagesCount;
+              });
+            },
+            onPageChanged: (page) {
+              setState(() {
+                _actualPageNumber = page;
+              });
+            },
+          );
   }
 
 }
