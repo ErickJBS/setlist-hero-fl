@@ -10,6 +10,7 @@ enum Provider { FACEBOOK, GOOGLE }
 
 class AuthService {
   String apiUrl = config.apiUrl;
+  String token;
 
   Future<User> loginWithPassword(String identifier, String password) async {
     var url = '$apiUrl/auth/email';
@@ -91,6 +92,7 @@ class AuthService {
   }
 
   Future<void> logout() async {
+    token = null;
     var preferences = await SharedPreferences.getInstance();
     await preferences.clear();
   }
@@ -101,8 +103,11 @@ class AuthService {
   }
 
   Future<String> getAuthToken() async {
-    var preferences = await SharedPreferences.getInstance();
-    return preferences.get('token');
+    if (token == null) {
+      var preferences = await SharedPreferences.getInstance();
+      token = preferences.get('token');
+    }
+    return token;
   }
 
    Future<void> saveCurrentUser(User user) async {
