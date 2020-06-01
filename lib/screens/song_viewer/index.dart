@@ -1,19 +1,10 @@
-import 'dart:async';
-
-import 'package:html/parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jsonml/html2jsonml.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:setlistherofl/screens/home/event_screen.dart';
-import 'package:setlistherofl/screens/song_viewer/TextSpanBuilder.dart';
-import 'package:setlistherofl/screens/song_viewer/RichTextTokenizer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/ChordsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/LyricsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/SheetsViewer.dart';
-import 'package:sheet_music/sheet_music.dart';
-import 'package:tokenizer/token.dart';
-import 'package:tokenizer/tokenizer.dart';
 
 class SongViewerScreen extends StatefulWidget {
   Songs _songs;
@@ -32,7 +23,6 @@ class SongViewerScreen extends StatefulWidget {
 }
 
 const String _montserratFontFamily = 'Montserrat';
-double _viewerFontSize = 8.0;
 
 class _SongViewerState extends State<SongViewerScreen> {
   int _selectedIndex = 0;

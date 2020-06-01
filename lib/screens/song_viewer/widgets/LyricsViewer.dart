@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:quill_delta/quill_delta.dart';
+import 'package:setlistherofl/screens/song_viewer/TextSpanBuilder.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/ContentView.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/NavigationButtons.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/TextSpanUtils.dart';
 
 class LyricsViewer extends StatefulWidget {
-  
-
   LyricsViewer();
 
   @override
@@ -15,20 +18,20 @@ class LyricsViewer extends StatefulWidget {
 
 class _LyricsViewerState extends State<LyricsViewer> {
   List<Widget> pages = [];
-  final String _montserratFontFamily = 'Montserrat';
-  double _viewerFontSize = 20.0;
-  
-  PageController controller = PageController(initialPage: 1, viewportFraction: 0.9);
+  double _viewerFontIncrement = 0.0;
 
-    void _increaseFontSize() {
+  PageController controller =
+      PageController(initialPage: 1, viewportFraction: 0.9);
+
+  void _increaseFontSize() {
     setState(() {
-      _viewerFontSize += 2.0;
+      _viewerFontIncrement += 4.0;
     });
   }
 
   void _decreaseFontSize() {
     setState(() {
-      _viewerFontSize -= 2.0;
+      _viewerFontIncrement -= 4.0;
     });
   }
 
@@ -48,49 +51,25 @@ class _LyricsViewerState extends State<LyricsViewer> {
 
   @override
   Widget build(BuildContext context) {
-    List<TextSpan> list = [
-      TextSpan(
-          text: 'Hello',
-          style: TextStyle(
-            color: Colors.black,
-              fontFamily: _montserratFontFamily, fontSize: _viewerFontSize)),
-      TextSpan(
-          text: 'Bold',
-          style: TextStyle(
-              fontFamily: _montserratFontFamily,
-              color: Colors.black,
-              decoration: null,
-              fontSize: _viewerFontSize,
-              fontWeight: FontWeight.bold)),
-      TextSpan(
-          text: 'Italic',
-          style: TextStyle(
-            color: Colors.black,
-              fontFamily: _montserratFontFamily,
-              fontSize: _viewerFontSize,
-              fontStyle: FontStyle.italic)),
-      TextSpan(
-          text: '\n',
-          style: TextStyle(
-              fontFamily: _montserratFontFamily,
-              fontSize: _viewerFontSize,
-              decoration: TextDecoration.underline)),
-      TextSpan(
-          text: 'Color',
-          style: TextStyle(
-              fontFamily: _montserratFontFamily,
-              fontSize: _viewerFontSize,
-              color: Color.fromARGB(255, 0, 71, 178))),
-      TextSpan(
-          text: 'Background',
-          style: TextStyle(
-              fontFamily: _montserratFontFamily,
-              fontSize: _viewerFontSize,
-              backgroundColor: Color.fromARGB(255, 255, 255, 0)))
-    ];
+    // TODO: GET LYRICS INFO (RICH TEXT)
+    // 
 
+    //var lyricsJson = json.decode(LYRICS TEXT);
+    //var doc = Delta.fromJson(lyricsJson['ops']);
+    //var builder = TextSpanBuilder(increment: _viewerFontIncrement);
+    //TextSpanUtils.DeltaToList(doc, builder);
     
 
-  return ContentView(onTapDecrease: _decreaseFontSize, onTapIncrease: _increaseFontSize, body: PageView(controller: controller, children: <Widget> [PrevSetButton(), _generateCardContent(list), _generateCardContent(list), NextSetButton()],));
+    return ContentView(
+        onTapDecrease: _decreaseFontSize,
+        onTapIncrease: _increaseFontSize,
+        body: PageView(
+          controller: controller,
+          children: <Widget>[
+            PrevSetButton(onTap: () {
+            },),
+            NextSetButton()
+          ],
+        ));
   }
 }
