@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:setlistherofl/routes.dart';
-import 'package:setlistherofl/screens/home/Event_page.dart';
-import 'package:setlistherofl/screens/home/Event_page2Month.dart';
-import 'package:setlistherofl/screens/home/Event_page3Year.dart';
 import 'package:setlistherofl/services/auth_service.dart';
 import 'package:setlistherofl/service_locator.dart';
+import 'widgets/event_viewer/index.dart';
+import 'styles.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-
-
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+  
+  static AuthService _auth = locator<AuthService>();
   TabController _tabController;
-  static const String logout = 'logout';
-  final AuthService _auth = locator<AuthService>();
-  static const List<String> choices = <String>[  //En caso de que en el futuro haya más opciones
-    logout,
+  List<dynamic> menuOptions = <dynamic> [
+    { 'label': 'Logout', 'callback': _logout },
   ];
+
   @override
   void initState(){
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  Future<void> _logout() async{
+  static Future<void> _logout(BuildContext context) async {
     try{
       await _auth.logout();
+      Navigator.pushNamedAndRemoveUntil(context, loginRoute, (route) => false);
     } catch(e){
       print('Failed to signOut' + e.toString());
     }
   }
 
-  void _choiceAction(String choice) async{
-    if(choice == _HomeScreenState.logout) {
-      await _logout();
-      Navigator.pushNamedAndRemoveUntil(context, loginRoute, (Route route) => false);
-    }//Aquí habría un elseif en dado caso que en el futuro agreguemos más opciones, como help, settings, etc
+  void _onOptionSelected(dynamic option) async {
+    var callback = option['callback'];
+    await callback(context);
   }
 
   @override
@@ -57,18 +54,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ),
         ),
         actions: <Widget>[
-          PopupMenuButton<String>(
+          PopupMenuButton<dynamic>(
             icon: Icon(
               FontAwesomeIcons.ellipsisV,
               color: Colors.black87,
               size: 18,
             ),
-            onSelected: _choiceAction,
-            itemBuilder: (BuildContext context){
-              return _HomeScreenState.choices.map((String choice){
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
+            onSelected: _onOptionSelected,
+            itemBuilder: (BuildContext context) {
+              return menuOptions.map((option) {
+                return PopupMenuItem<dynamic>(
+                  value: option,
+                  child: Text(option['label'])
                 );
               }).toList();
             },
@@ -93,36 +90,27 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
-                labelColor: Colors.orange[400],
+                labelColor: tabLabelColor,
                 isScrollable: true,
                 labelPadding: EdgeInsets.only(right: 45.0),
-                unselectedLabelColor: Colors.grey[400],
+                unselectedLabelColor: tabUnselectedLabelColor,
                 tabs: [
                   Tab(
                     child: Text(
-                      'Current Events',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 21,
-                      ),
+                      'Today',
+                      style: TabLabelStyle,
                     ),
                   ),
                   Tab(
                     child: Text(
                       'This Month',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 21,
-                      ),
+                      style: TabLabelStyle,
                     ),
                   ),
                   Tab(
                     child: Text(
                       'This Year',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 21,
-                      ),
+                      style: TabLabelStyle,
                     ),
                   )
                 ]),
@@ -132,9 +120,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: TabBarView(
                     controller: _tabController,
                     children: [
-                      EventPage(),
-                      EventPageMonth(),
-                      EventPageYear(),
+                      EventViewer(),
+                      EventViewer(),
+                      EventViewer(),
                     ]
                 )
             )

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:setlistherofl/screens/song_viewer/index.dart';
 import 'package:setlistherofl/screens/splash/index.dart';
 
 import './screens/home/index.dart';
@@ -26,9 +25,6 @@ class Router {
         
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-
-//      case songViewer:
-//        return MaterialPageRoute(builder: (_) => SongViewerScreen());
 
       default:
         return MaterialPageRoute(
