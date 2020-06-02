@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/ContentView.dart';
+
+import 'NavigationButtons.dart';
 
 class SheetsViewer extends StatefulWidget {
   @override
@@ -13,19 +16,45 @@ class _SheetsViewerState extends State<SheetsViewer> {
   final String _montserratFontFamily = 'Montserrat';
   int _actualPageNumber = 1, _allPagesCount = 0;
   PdfController _pdfController;
+  PageController controller =
+      PageController(initialPage: 1, viewportFraction: 0.9);
 
   @override
   void initState() {
     _pdfController = PdfController(
-      document: PdfDocument.openAsset('assets/sample.pdf'),
+      document: PdfDocument.openAsset('assets/images/example.pdf'),
     );
     super.initState();
   }
 
   @override
   void dispose() {
-     _pdfController.dispose();
+    _pdfController.dispose();
     super.dispose();
+  }
+
+  Widget _generateCardContent() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      child: Card(
+        child: PdfView(
+          documentLoader: Center(child: CircularProgressIndicator()),
+          pageLoader: Center(child: CircularProgressIndicator()),
+          controller: _pdfController,
+          scrollDirection: Axis.vertical,
+          onDocumentLoaded: (document) {
+            setState(() {
+              _allPagesCount = document.pagesCount;
+            });
+          },
+          onPageChanged: (page) {
+            setState(() {
+              _actualPageNumber = page;
+            });
+          },
+        )
+      )
+    );
   }
 
   @override
@@ -58,21 +87,10 @@ class _SheetsViewerState extends State<SheetsViewer> {
       },
     );*/
 
-    return PdfView(
-            documentLoader: Center(child: CircularProgressIndicator()),
-            pageLoader: Center(child: CircularProgressIndicator()),
-            controller: _pdfController,
-            onDocumentLoaded: (document) {
-              setState(() {
-                _allPagesCount = document.pagesCount;
-              });
-            },
-            onPageChanged: (page) {
-              setState(() {
-                _actualPageNumber = page;
-              });
-            },
-          );
+    return ContentView(
+        onTapDecrease: null,
+        onTapIncrease: null,
+        body: PageView(controller: controller,
+        children: <Widget>[_generateCardContent(), NextSetButton()]));
   }
-
 }

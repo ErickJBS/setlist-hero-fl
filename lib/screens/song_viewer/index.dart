@@ -48,23 +48,11 @@ class _SongViewerState extends State<SongViewerScreen> {
       centerTitle: true,
       elevation: 0.0,
       backgroundColor: Colors.white,
-      title: Column(
-        children: <Widget>[
-          Text(
+      title: Text(
             'Song B',
             style: TextStyle(
                 fontFamily: _montserratFontFamily, color: Colors.black87),
-          ),
-          Text(
-            'Set A',
-            style: TextStyle(
-                fontFamily: _montserratFontFamily,
-                color: Colors.black87,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w300),
-          ),
-        ],
-      ),
+                ),
       leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
