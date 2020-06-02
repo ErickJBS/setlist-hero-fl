@@ -32,8 +32,8 @@ class SongService {
     final headers = await _headers();
     final response = await http.get(requestUrl, headers: headers );
     if (response.statusCode == 200) {
-      List<Map> data = jsonDecode(response.body);
-      return data.map((e) => Song.fromMap(e));
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => Song.fromMap(e)).toList();
     }
     return null;
   }

@@ -32,8 +32,8 @@ class EventService {
     final headers = await _headers();
     final response = await http.get(requestUrl, headers: headers );
     if (response.statusCode == 200) {
-      List<Map> data = jsonDecode(response.body);
-      return data.map((e) => Event.fromMap(e));
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((e) => Event.fromMap(e)).toList();
     }
     return null;
   }

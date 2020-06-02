@@ -1,3 +1,5 @@
+import 'package:setlistherofl/utils/string_utils.dart';
+
 class Sheet {
   final String instrument;
   final String content;
@@ -38,9 +40,9 @@ class Song {
     band = data['band'],
     lyrics = data['lyrics'],
     chords = data['chords'],
-    tempo = data['tempo'],
+    tempo = int.parse(data['tempo']),
     sheets = _getSheets(data['sheets']),
-    tags = data['tags'];
+    tags = toStringArray(data['tags']);
   
   Map<String, dynamic> toMap() {
     return {
@@ -59,9 +61,9 @@ class Song {
   }
 
   static List<Sheet> _getSheets(dynamic data) {
-    List<Map> sheets = data;
+    List<dynamic> sheets = data;
     if (sheets != null) {
-      return sheets.map((e) => Sheet.fromMap(e));
+      return sheets.map((e) => Sheet.fromMap(e)).toList();
     }
     return null;
   }

@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:setlistherofl/screens/home/event_screen.dart';
+// import 'package:setlistherofl/screens/home/event_screen.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/ChordsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/LyricsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/SheetsViewer.dart';
 
 class SongViewerScreen extends StatefulWidget {
-  Songs _songs;
+  dynamic _songs;
 
-  SongViewerScreen(Songs songs) {
+  SongViewerScreen(dynamic songs) {
     _songs = songs;
   }
 
@@ -31,8 +31,8 @@ class _SongViewerState extends State<SongViewerScreen> {
 
   final tabs = [LyricsViewer(), ChrodsViewer(), SheetsViewer()];
 
-  Songs _songs;
-  _SongViewerState(Songs songs) {    
+  dynamic _songs;
+  _SongViewerState(dynamic songs) {    
     _songs = songs;
   }
 

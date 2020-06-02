@@ -1,3 +1,5 @@
+import 'package:setlistherofl/utils/string_utils.dart';
+
 class Band {
   final String id;
   final String name;
@@ -13,7 +15,7 @@ class Band {
     name = data['name'],
     description = data['description'],
     logo = data['logo'],
-    genres = data['genres'],
+    genres = toStringArray(data['genres']),
     manager = data['manager'];
   
   Map<String, dynamic> toMap() {

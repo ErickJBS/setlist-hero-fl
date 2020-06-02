@@ -1,3 +1,4 @@
+import 'package:setlistherofl/utils/string_utils.dart';
 import 'song.dart';
 
 class Set {
@@ -22,9 +23,9 @@ class Set {
   }
 
   static List<Song> _getSongs(dynamic data) {
-    List<Map> songs = data;
+    List<dynamic> songs = data;
     if (songs != null) {
-      return songs.map((e) => Song.fromMap(e));
+      return songs.map((e) => Song.fromMap(e)).toList();
     }
     return null;
   }
@@ -38,22 +39,24 @@ class Event {
   final String tour;
   final String band;
   final String designer;
+  final String bandName;
   final List<String> tags;
   final List<Set> setlist;
 
   Event({this.id, this.tour, this.name, this.date, this.location,
-    this.band, this.designer, this.setlist, this.tags});
+    this.band, this.designer, this.setlist, this.tags, this.bandName});
 
   Event.fromMap(Map<String, dynamic> data):
     id = data['id'],
     name = data['name'],
-    date = data['date'],
+    date = DateTime.parse(data['date']),
     tour = data['tour'],
+    bandName = data['bandName'],
     location = data['location'],
     band = data['band'],
     designer = data['designer'],
     setlist = _getSetlist(data['setlist']),
-    tags = data['tags'];
+    tags = toStringArray(data['tags']);
   
   Map<String, dynamic> toMap() {
     return {
@@ -61,6 +64,7 @@ class Event {
       'name': name,
       'date': date,
       'location': location,
+      'bandName': bandName,
       'tour': tour,
       'band': band,
       'designer': designer,
@@ -74,9 +78,9 @@ class Event {
   }
 
   static List<Set> _getSetlist(dynamic data) {
-    List<Map> sets = data;
+    List<dynamic> sets = data;
     if (sets != null) {
-      return sets.map((e) => Set.fromMap(e));
+      return sets.map((e) => Set.fromMap(e)).toList();
     }
     return null;
   }
