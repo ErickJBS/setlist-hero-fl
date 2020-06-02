@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/models/event.dart';
 import 'package:intl/intl.dart';
+import 'package:setlistherofl/screens/setlist/index.dart';
 import 'styles.dart';
 
 class EventItem extends StatelessWidget {
@@ -12,13 +13,13 @@ class EventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => EventoSets(
-        //   date: events[index].date,
-        //   tourName: events[index].tourName,
-        //   nameBand: events[index].bandName)
-        // )
-        // );
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SetlistScreen(event),
+          ),
+        );
       },
       child: Container(
         child: Card(
