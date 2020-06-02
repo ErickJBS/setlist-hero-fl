@@ -24,20 +24,22 @@ class Song {
   final String id;
   final String name;
   final String band;
-  final String lyrics;
+  final Map lyrics;
+  final Map chords;
   final int tempo;
   final List<Sheet> sheets;
   final List<String> tags;
 
-  Song({this.id, this.name, this.band, this.lyrics, this.tempo, this.sheets, this.tags});
+  Song({this.id, this.name, this.band, this.lyrics, this.chords, this.tempo, this.sheets, this.tags});
 
   Song.fromMap(Map<String, dynamic> data):
     id = data['id'],
     name = data['name'],
     band = data['band'],
     lyrics = data['lyrics'],
+    chords = data['chords'],
     tempo = data['tempo'],
-    sheets = data['sheets'],
+    sheets = _getSheets(data['sheets']),
     tags = data['tags'];
   
   Map<String, dynamic> toMap() {
@@ -54,6 +56,14 @@ class Song {
 
   static String get modelName {
     return 'song';
+  }
+
+  static List<Sheet> _getSheets(dynamic data) {
+    List<Map> sheets = data;
+    if (sheets != null) {
+      return sheets.map((e) => Sheet.fromMap(e));
+    }
+    return null;
   }
 }
 

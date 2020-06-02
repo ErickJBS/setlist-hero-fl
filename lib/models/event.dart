@@ -8,7 +8,7 @@ class Set {
 
   Set.fromMap(Map<String, dynamic> data):
     name = data['name'],
-    songs = data['songs'];
+    songs = _getSongs(data['songs']);
   
   Map<String, dynamic> toMap() {
     return {
@@ -20,6 +20,14 @@ class Set {
   static String get modelName {
     return 'set';
   }
+
+  static List<Song> _getSongs(dynamic data) {
+    List<Map> songs = data;
+    if (songs != null) {
+      return songs.map((e) => Song.fromMap(e));
+    }
+    return null;
+  }
 }
 
 class Event {
@@ -27,22 +35,24 @@ class Event {
   final String name;
   final DateTime date;
   final String location;
+  final String tour;
   final String band;
   final String designer;
   final List<String> tags;
   final List<Set> setlist;
 
-  Event({this.id, this.name, this.date, this.location,
+  Event({this.id, this.tour, this.name, this.date, this.location,
     this.band, this.designer, this.setlist, this.tags});
 
   Event.fromMap(Map<String, dynamic> data):
     id = data['id'],
     name = data['name'],
     date = data['date'],
+    tour = data['tour'],
     location = data['location'],
     band = data['band'],
     designer = data['designer'],
-    setlist = data['setlist'],
+    setlist = _getSetlist(data['setlist']),
     tags = data['tags'];
   
   Map<String, dynamic> toMap() {
@@ -51,6 +61,7 @@ class Event {
       'name': name,
       'date': date,
       'location': location,
+      'tour': tour,
       'band': band,
       'designer': designer,
       'setlist': setlist,
@@ -60,6 +71,14 @@ class Event {
 
   static String get modelName {
     return 'event';
+  }
+
+  static List<Set> _getSetlist(dynamic data) {
+    List<Map> sets = data;
+    if (sets != null) {
+      return sets.map((e) => Set.fromMap(e));
+    }
+    return null;
   }
 }
 

@@ -38,7 +38,7 @@ class SongService {
     return null;
   }
 
-  Future<Map> _headers() async {
+  Future<Map<String, String>> _headers() async {
     final token = await authService.getAuthToken();
     return {
       'Authorization': 'Bearer $token',
