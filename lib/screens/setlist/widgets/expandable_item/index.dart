@@ -7,14 +7,11 @@ class ExpandableItem extends StatelessWidget {
   final List<Song> songs;
   final bool initiallyExpanded;
 
-  ExpandableItem({
-    this.title, this.songs, this.initiallyExpanded = false
-  });
-  
+  ExpandableItem({this.title, this.songs, this.initiallyExpanded = false});
+
   @override
   Widget build(BuildContext context) {
-    if (songs.isEmpty)
-      return ListTile(title: Text(title));
+    if (songs.isEmpty) return ListTile(title: Text(title));
     return ExpansionTile(
       initiallyExpanded: initiallyExpanded,
       title: Text(title),
@@ -23,9 +20,15 @@ class ExpandableItem extends StatelessWidget {
   }
 
   List<Widget> _populateChildren() {
-    return songs.map((Song item) {
-      return SongItem(item);
-    }).toList();
-  }
+    List<Widget> songItems = [];
 
+    songs.asMap().forEach((index, item) {
+      songItems.add(SongItem(
+        songs: songs,
+        index: index,
+      ));
+    });
+
+    return songItems;
+  }
 }

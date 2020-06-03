@@ -1,40 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:setlistherofl/models/song.dart';
 // import 'package:setlistherofl/screens/home/event_screen.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/ChordsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/LyricsViewer.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/SheetsViewer.dart';
 
 class SongViewerScreen extends StatefulWidget {
-  dynamic _songs;
+  final List<Song> songs;
+  final int index;
 
-  SongViewerScreen(dynamic songs) {
-    _songs = songs;
-  }
+  SongViewerScreen({this.songs, this.index});
 
   @override
-  State<StatefulWidget> createState() {
-    return _SongViewerState(_songs);
-  }
-
-//  @override
-//  _SongViewerState createState() => _SongViewerState(_songs);
+  _SongViewerState createState() => _SongViewerState();
 }
 
 const String _montserratFontFamily = 'Montserrat';
 
 class _SongViewerState extends State<SongViewerScreen> {
   int _selectedIndex = 0;
-  String _selectedSet;
-  String _selectedSong;
 
   final tabs = [LyricsViewer(), ChrodsViewer(), SheetsViewer()];
-
-  dynamic _songs;
-  _SongViewerState(dynamic songs) {    
-    _songs = songs;
-  }
 
   void _onItemTapped(int index) {
     setState(() {
