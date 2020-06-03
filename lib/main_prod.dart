@@ -2,6 +2,8 @@ import 'package:setlistherofl/app_config.dart';
 import 'package:setlistherofl/app.dart';
 import 'package:setlistherofl/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:setlistherofl/AppStateNotifier.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   AppConfig.init(
@@ -11,5 +13,10 @@ void main() {
   );
   
   setupServiceLocator();
-  runApp(App());
+  runApp(
+      ChangeNotifierProvider<AppStateNotifier>(
+        create: (context) => AppStateNotifier(),
+        child: App(),
+      )
+  );
 }

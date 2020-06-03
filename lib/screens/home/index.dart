@@ -5,6 +5,9 @@ import 'package:setlistherofl/services/auth_service.dart';
 import 'package:setlistherofl/service_locator.dart';
 import 'widgets/event_viewer/index.dart';
 import 'styles.dart';
+import 'package:provider/provider.dart' as prov;
+import 'package:setlistherofl/AppStateNotifier.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -44,31 +47,42 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.color,
         elevation: 0.0,
         centerTitle: true,
         title: Text('Setlist Hero',
-          style: TextStyle(
-            color: Colors.black87,
-            fontFamily: 'Montserrat',
-          ),
+          style: Theme.of(context).textTheme.headline6,
         ),
         actions: <Widget>[
-          PopupMenuButton<dynamic>(
-            icon: Icon(
-              FontAwesomeIcons.ellipsisV,
-              color: Colors.black87,
-              size: 18,
-            ),
-            onSelected: _onOptionSelected,
-            itemBuilder: (BuildContext context) {
-              return menuOptions.map((option) {
-                return PopupMenuItem<dynamic>(
-                  value: option,
-                  child: Text(option['label'])
-                );
-              }).toList();
+          Switch(
+            value: prov.Provider.of<AppStateNotifier>(context, listen: false).isDarkModeOn,
+            onChanged: (boolVal){
+              prov.Provider.of<AppStateNotifier>(context, listen: false).updateTheme(boolVal);
             },
+          ),
+          Theme(  // Theme was added in order to see the PopupMenuButton in dark mode too
+            data: Theme.of(context).copyWith(
+              cardColor: Theme.of(context).backgroundColor,
+            ),
+            child: PopupMenuButton<dynamic>(
+              icon: Icon(
+                FontAwesomeIcons.ellipsisV,
+                color: Theme.of(context).iconTheme.color,
+                size: 18,
+              ),
+              onSelected: _onOptionSelected,
+              itemBuilder: (BuildContext context) {
+                return menuOptions.map((option) {
+                  return PopupMenuItem<dynamic>(
+                    value: option,
+                    child: Text(
+                      option['label'],
+                      style: Theme.of(context).textTheme.bodyText2,
+                    )
+                  );
+                }).toList();
+              },
+            ),
           ),
         ],
       ),
@@ -80,20 +94,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             SizedBox(height: 10.0,),
             Text(
               'Events',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Montserrat',
-                fontSize: 30,
-              ),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             SizedBox(height: 10,),
             TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
-                labelColor: tabLabelColor,
+                labelColor: Theme.of(context).tabBarTheme.labelColor,
                 isScrollable: true,
                 labelPadding: EdgeInsets.only(right: 45.0),
-                unselectedLabelColor: tabUnselectedLabelColor,
+                unselectedLabelColor: Theme.of(context).tabBarTheme.unselectedLabelColor,
                 tabs: [
                   Tab(
                     child: Text(

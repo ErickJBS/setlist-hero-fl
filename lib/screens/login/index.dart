@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:setlistherofl/routes.dart';
@@ -53,12 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.orange[900],
-              Colors.orange[800],
-              Colors.orange[400],
+              Color.fromARGB(220, 26, 62, 147),
+              Color.fromARGB(230, 80, 101, 149),
+              Color.fromARGB(200, 156, 175, 219),
             ],
           ),
-
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,18 +67,31 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Welcome', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat',fontSize: 40),),
+                  Text('Welcome',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                      fontSize: 40),
+                  ),
                   SizedBox(height: 10,), // Separador de palabras
-                  Text("Let's rock!", style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', fontSize: 20),),
+                  Text("Let's rock!",
+                    style: TextStyle(
+                        color: Colors.white,
+                      fontFamily: 'Montserrat',
+                      fontSize: 20),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 15,), //separación del texto con el contenedor balnco
+            SizedBox(height: 15,), //Divider for the text with the white container
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                  ),
                 ),
                 child: Padding(
                   key: _containerKey,
@@ -100,10 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email',
-                                    //errorText: null,
-                                    labelStyle: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                    ),
+                                    labelStyle: Theme.of(context).textTheme.bodyText2,
                                 ),
                             ),
                         ),
@@ -120,28 +128,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               border: OutlineInputBorder(),
                               labelText: 'Password',
                               //errorText: null,
-                              labelStyle: TextStyle(
-                                fontFamily: 'Montserrat',
-                              ),
+                              labelStyle: Theme.of(context).textTheme.bodyText2,
                             ),
                           ),
                         ),
-                        SizedBox(height: 20,),  // separador para botn login
+                        SizedBox(height: 20,),  // Divider for login button
                         Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-                            color: Colors.orangeAccent[700]
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                            color: Color.fromARGB(255, 80, 101, 149),
                           ),
                           child: FlatButton(
                             onPressed: () => _loginWithEmailPassword(email, password),
                             child: Text(
                               'LOGIN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 20),
+                              style: Theme.of(context).textTheme.headline5
                             ),
                           ),
                         ),
@@ -154,20 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20,),
                         Text('Continue with social media',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontFamily: 'Montserrat',
-                          ),
+                          style: Theme.of(context).textTheme.bodyText2,
                         ),
                         SizedBox(height: 20,),
                         Row(
                           children: <Widget>[
                             Expanded(
                               child: Container(
-                                //height: 40,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
                                   color: Color.fromARGB(255, 59, 89, 152)
                                 ),
                                 child: Center(
@@ -180,7 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           FontAwesomeIcons.facebook,
                                           color: Colors.white,
                                           size: 28,
-
                                         ),
                                       ),
                                     ],
@@ -188,13 +189,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 40,),  // separador para botones redes sociales
+                            SizedBox(width: 40,),  //divider for the Social media Buttons
                             Expanded(
                               child: Container(
-                                //height: 40,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
                                     color: Colors.deepOrange,
                                 ),
                                 child: Center(
@@ -222,10 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: <Widget>[
                             Text(
                               "Don't have an account? ",
-                              style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontFamily: 'Montserrat',
-                              ),
+                              style: Theme.of(context).textTheme.bodyText2,
                             ),
                             SizedBox(height: 5,),
                             InkWell(
@@ -238,13 +237,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text('Register',
                                 style: TextStyle(
-                                  color: Colors.orangeAccent[400],
+                                  color: Color.fromARGB(255, 156, 175, 219),
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
                                 ),
                               ),
-
                             ),
                           ],
                         ),

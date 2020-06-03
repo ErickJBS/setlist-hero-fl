@@ -42,7 +42,7 @@ class _EventViewerState extends State<EventViewer> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: Center(
         child: _isLoading ?
           CircularProgressIndicator() :

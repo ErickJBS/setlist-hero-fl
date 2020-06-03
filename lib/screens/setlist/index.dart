@@ -11,17 +11,14 @@ class SetlistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.color,
         elevation: 0.0,
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: Colors.black87,
+          color: Theme.of(context).iconTheme.color,
         ),
         title: Text(event.name,
-          style: TextStyle(
-            color: Colors.black87,
-            fontFamily: 'Montserrat',
-          ),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: SingleChildScrollView(
