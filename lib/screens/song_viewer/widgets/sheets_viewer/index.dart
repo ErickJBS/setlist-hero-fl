@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/ContentView.dart';
-
-import 'NavigationButtons.dart';
 
 class SheetsViewer extends StatefulWidget {
+  PageController pageController;
+
+  SheetsViewer({@required this.pageController});
+
+
   @override
   State<StatefulWidget> createState() {
     return _SheetsViewerState();
@@ -44,7 +46,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
           scrollDirection: Axis.vertical,
           onDocumentLoaded: (document) {
             setState(() {
-              _allPagesCount = document.pagesCount;
+              //_allPagesCount = document.pagesCount;
             });
           },
           onPageChanged: (page) {
@@ -87,10 +89,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
       },
     );*/
 
-    return ContentView(
-        onTapDecrease: null,
-        onTapIncrease: null,
-        body: PageView(controller: controller,
-        children: <Widget>[_generateCardContent(), NextSetButton()]));
+    return PageView(controller: controller,
+        children: <Widget>[Text('asd'), Text('asdasd'),]);
   }
 }
