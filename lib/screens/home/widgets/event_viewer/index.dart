@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:setlistherofl/models/event.dart';
 import 'package:setlistherofl/services/event_service.dart';
+import 'package:setlistherofl/services/auth_service.dart';
 import 'package:setlistherofl/service_locator.dart';
 import '../event_item/index.dart';
 
@@ -16,6 +17,7 @@ class EventViewer extends StatefulWidget {
 
 class _EventViewerState extends State<EventViewer> {
   EventService eventService = locator<EventService>();
+  AuthService authService = locator<AuthService>();
   List<Event> _events = List<Event>();
   bool _isLoading;
 
@@ -27,8 +29,10 @@ class _EventViewerState extends State<EventViewer> {
   }
 
   void _loadEvents() async {
+    var user = await authService.getCurrentUser();
     EventFilter filter = EventFilter(
-      // TODO: add musician filter (get userId from auth_service)
+      // TODO: uncomment when we have enough test data
+      // musician: user.id,
       startDate: widget.startDate.toString(),
       endDate: widget.endDate.toString()
     );

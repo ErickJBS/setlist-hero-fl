@@ -4,6 +4,7 @@ import 'package:setlistherofl/routes.dart';
 import 'package:setlistherofl/services/auth_service.dart';
 import 'package:setlistherofl/service_locator.dart';
 import 'widgets/event_viewer/index.dart';
+import 'package:setlistherofl/utils/date_utils.dart';
 import 'styles.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -120,9 +121,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: TabBarView(
                     controller: _tabController,
                     children: [
-                      EventViewer(),
-                      EventViewer(),
-                      EventViewer(),
+                      EventViewer(
+                        startDate: DateUtils.startOfCurrentDay(),
+                        endDate: DateUtils.endOfCurrentDay(),
+                      ),
+                      EventViewer(
+                        startDate: DateUtils.startOfCurrentDay(),
+                        endDate: DateUtils.endOfCurrentMonth(),
+                      ),
+                      EventViewer(
+                        startDate: DateUtils.startOfCurrentDay(),
+                        endDate: DateUtils.endOfCurrentYear(),
+                      ),
                     ]
                 )
             )

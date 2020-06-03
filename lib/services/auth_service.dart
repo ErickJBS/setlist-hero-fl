@@ -9,11 +9,12 @@ import 'package:setlistherofl/models/user.dart';
 enum Provider { FACEBOOK, GOOGLE }
 
 class AuthService {
-  String apiUrl = config.apiUrl;
-  String token;
+  String _apiUrl = config.apiUrl;
+  String _token;
+  User _currentUser;
 
   Future<User> loginWithPassword(String identifier, String password) async {
-    var url = '$apiUrl/auth/email';
+    var url = '$_apiUrl/auth/email';
     var body = {'identifier': identifier, 'password': password};
     var response = await http.post(url,
         headers: {'content-type': 'application/json'}, body: jsonEncode(body));
@@ -36,7 +37,7 @@ class AuthService {
       String username,
       String password,
       String displayName}) async {
-    var url = '$apiUrl/auth/register';
+    var url = '$_apiUrl/auth/register';
     var body = {
       'email': email,
       'displayName': displayName,
@@ -64,7 +65,7 @@ class AuthService {
   }
 
   Future<User> getUser(String userId) async {
-    var url = '$apiUrl/user/$userId';
+    var url = '$_apiUrl/user/$userId';
     var response = await http.get(url);
     var result = jsonDecode(response.body);
     return User.fromMap(result);
@@ -75,7 +76,7 @@ class AuthService {
     String urlProvider =
         (provider == Provider.FACEBOOK) ? 'facebook' : 'google';
     final response = await FlutterWebAuth.authenticate(
-      url: '$apiUrl/auth/$urlProvider?redirectUri=setlistheromobile:/',
+      url: '$_apiUrl/auth/$urlProvider?redirectUri=setlistheromobile:/',
       callbackUrlScheme: "setlistheromobile",
     );
 
@@ -92,7 +93,8 @@ class AuthService {
   }
 
   Future<void> logout() async {
-    token = null;
+    _token = null;
+    _currentUser = null;
     var preferences = await SharedPreferences.getInstance();
     await preferences.clear();
   }
@@ -103,11 +105,11 @@ class AuthService {
   }
 
   Future<String> getAuthToken() async {
-    if (token == null) {
+    if (_token == null) {
       var preferences = await SharedPreferences.getInstance();
-      token = preferences.get('token');
+      _token = preferences.get('token');
     }
-    return token;
+    return _token;
   }
 
    Future<void> saveCurrentUser(User user) async {
@@ -117,8 +119,11 @@ class AuthService {
   }
 
   Future<User> getCurrentUser() async {
-    var preferences = await SharedPreferences.getInstance();
-    final json = preferences.get('user');
-    return User.fromMap(jsonDecode(json));
+    if (_currentUser == null) {
+      var preferences = await SharedPreferences.getInstance();
+      final json = preferences.get('user');
+      _currentUser = User.fromMap(jsonDecode(json));
+    }
+    return _currentUser;
   }
 }

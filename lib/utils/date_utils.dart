@@ -1,4 +1,13 @@
 class DateUtils {
+
+  static DateTime startOfCurrentDay() {
+    final today = DateTime.now();
+    final month = _twoDigits(today.month);
+    final day = _twoDigits(today.day);
+    String date = '${today.year}-$month-$day 00:00:00';
+    return DateTime.parse(date);
+  }
+
   static DateTime endOfCurrentDay() {
     final today = DateTime.now();
     final month = _twoDigits(today.month);
