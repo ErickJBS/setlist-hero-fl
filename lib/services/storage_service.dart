@@ -1,18 +1,10 @@
 import 'dart:io' show Platform;
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 
 class StorageService {
-
-  StorageService() {
-    WidgetsFlutterBinding.ensureInitialized();
-    FlutterDownloader.initialize(
-      debug: false
-    );
-  }
 
   Future<File> downloadFile(String link) async {
     bool permission = await _checkPermission();
@@ -26,13 +18,12 @@ class StorageService {
       return file;
     }
 
-    String directory = await _getDirectory();
-    final taskId = await FlutterDownloader.enqueue(
-      url: link,
-      savedDir: directory,
-      showNotification: false
-    );
-    // TODO: check when file is downloaded
+    http.Response response = await http.get(link);
+    if (response.statusCode != 200) {
+      throw Exception('Can not download file');
+    }
+    await file.writeAsBytes(response.bodyBytes, flush: true);
+    return file;
   }
 
   String _getFileNameFromLink(String link) {

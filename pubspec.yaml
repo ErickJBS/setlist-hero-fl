@@ -20,7 +20,6 @@ dependencies:
   native_pdf_view: ^3.6.2
   intl: ^0.16.1
   test: ^1.14.4
-  flutter_downloader: ^1.4.4
   permission_handler: ^5.0.0+hotfix.8
   path_provider: ^1.6.10
 
