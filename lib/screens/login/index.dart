@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
                             ),
-                            color: Color.fromARGB(255, 80, 101, 149),
+                            color: Color.fromARGB(255, 26, 62, 147),
                           ),
                           child: FlatButton(
                             onPressed: () => _loginWithEmailPassword(email, password),

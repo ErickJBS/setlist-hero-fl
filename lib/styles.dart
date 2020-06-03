@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+
 class ThemeBuilder {
   ThemeBuilder._();
 
@@ -73,6 +75,7 @@ class ThemeBuilder {
       labelColor: Color.fromARGB(255, 26, 62, 147),
       unselectedLabelColor: Colors.grey[400],
     ),
+    buttonColor:  Color.fromARGB(255, 26, 62, 147), //Logout button
   );
 
 
@@ -145,5 +148,6 @@ class ThemeBuilder {
       labelColor: Colors.orange[400],
       unselectedLabelColor: Colors.grey[400],
     ),
+    buttonColor:  Color.fromARGB(255, 80, 101, 149),  //Logout button
   );
 }
