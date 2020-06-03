@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:setlistherofl/models/song.dart';
-// import 'package:setlistherofl/screens/home/event_screen.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/ChordsViewer.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/LyricsViewer.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/SheetsViewer.dart';
+import 'package:setlistherofl/screens/song_viewer/styles.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/chords_viewer/index.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/lyrics_viewer/index.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/sheets_viewer/index.dart';
 
 class SongViewerScreen extends StatefulWidget {
   final List<Song> songs;
@@ -17,12 +17,11 @@ class SongViewerScreen extends StatefulWidget {
   _SongViewerState createState() => _SongViewerState();
 }
 
-const String _montserratFontFamily = 'Montserrat';
-
 class _SongViewerState extends State<SongViewerScreen> {
   int _selectedIndex = 0;
-
-  final tabs = [LyricsViewer(), ChrodsViewer(), SheetsViewer()];
+  PageController _controller;
+  Duration _pageSwapDuration = Duration(milliseconds: 500);
+  Curve _pageSwapCurve = Curves.ease;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,17 +29,56 @@ class _SongViewerState extends State<SongViewerScreen> {
     });
   }
 
+  Widget _getFabButton(var fabIcon, var callback) {
+    return FloatingActionButton(
+        heroTag: null,
+        child: Icon(
+          fabIcon,
+          color: fabIconColor,
+        ),
+        backgroundColor: fabBackgroundColor,
+        mini: true,
+        onPressed: callback);
+  }
+
+  void _initPageController(int index) {
+    _controller = PageController(initialPage: index, viewportFraction: 0.9);
+  }
+
+  void _nextPage() {
+    _controller.nextPage(duration: _pageSwapDuration, curve: _pageSwapCurve);
+  }
+
+  void _prevPage() {
+    _controller.previousPage(
+        duration: _pageSwapDuration, curve: _pageSwapCurve);
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Song> songs = widget.songs;
+    int songIndex = widget.index;
+
+    _initPageController(songIndex);
+
+    var tabs = [
+      LyricsViewer(
+        pageController: _controller,
+      ),
+      ChrodsViewer(
+        pageController: _controller,
+      ),
+      SheetsViewer(pageController: _controller,)
+    ];
+
     AppBar appBar = AppBar(
       centerTitle: true,
       elevation: 0.0,
       backgroundColor: Colors.white,
       title: Text(
-            'Song B',
-            style: TextStyle(
-                fontFamily: _montserratFontFamily, color: Colors.black87),
-                ),
+          //songs[songIndex].name,
+          'DEMO',
+          style: appBarTitleStyle),
       leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -65,9 +103,21 @@ class _SongViewerState extends State<SongViewerScreen> {
       ],
     );
 
+    var body = Stack(
+      children: <Widget>[
+        tabs[_selectedIndex],
+        Positioned(
+            bottom: 8.0,
+            right: 8.0,
+            child: _getFabButton(MdiIcons.chevronRight, _nextPage)),
+        Positioned(
+            bottom: 8.0,
+            left: 8.0,
+            child: _getFabButton(MdiIcons.chevronLeft, _prevPage))
+      ],
+    );
+
     return Scaffold(
-        appBar: appBar,
-        bottomNavigationBar: bottomNavigatorBar,
-        body: tabs[_selectedIndex]);
+        appBar: appBar, bottomNavigationBar: bottomNavigatorBar, body: body);
   }
 }

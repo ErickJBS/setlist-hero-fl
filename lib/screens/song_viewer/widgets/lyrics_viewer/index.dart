@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
-import 'package:setlistherofl/screens/song_viewer/TextSpanBuilder.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/ContentView.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/NavigationButtons.dart';
-import 'package:setlistherofl/screens/song_viewer/widgets/TextSpanUtils.dart';
+import 'package:setlistherofl/models/song.dart';
 
 class LyricsViewer extends StatefulWidget {
-  LyricsViewer();
+  PageController pageController;
+  List<Song> songs;
+  int index;
+
+  LyricsViewer({this.pageController, this.songs, this.index});
 
   @override
   State<StatefulWidget> createState() {
@@ -17,11 +18,7 @@ class LyricsViewer extends StatefulWidget {
 }
 
 class _LyricsViewerState extends State<LyricsViewer> {
-  List<Widget> pages = [];
   double _viewerFontIncrement = 0.0;
-
-  PageController controller =
-      PageController(initialPage: 1, viewportFraction: 0.9);
 
   void _increaseFontSize() {
     setState(() {
@@ -60,16 +57,14 @@ class _LyricsViewerState extends State<LyricsViewer> {
     //TextSpanUtils.DeltaToList(doc, builder);
     
 
-    return ContentView(
-        onTapDecrease: _decreaseFontSize,
-        onTapIncrease: _increaseFontSize,
-        body: PageView(
-          controller: controller,
+    return PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: widget.pageController,
           children: <Widget>[
-            PrevSetButton(onTap: () {
-            },),
-            NextSetButton()
+            Text('asdasdasd'),
+            Text('asdasdsadasdas'),
+            //_generateCardContent(list),
           ],
-        ));
+        );
   }
 }

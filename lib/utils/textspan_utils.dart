@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quill_delta/quill_delta.dart';
-import 'package:setlistherofl/screens/song_viewer/ColorsUtils.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/textspan_builder.dart';
 
-import '../TextSpanBuilder.dart';
-
+import 'colors_util.dart';
 abstract class TextSpanUtils {
   TextSpanUtils();
 
