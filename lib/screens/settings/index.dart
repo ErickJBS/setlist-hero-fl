@@ -54,11 +54,11 @@ class Settings extends StatelessWidget {
                         Switch(
                           value: prov.Provider.of<AppStateNotifier>(context,
                               listen: false)
-                              .isDarkModeOn,
+                              .darkTheme,
                           onChanged: (boolVal) {
                             prov.Provider.of<AppStateNotifier>(context,
                                 listen: false)
-                                .updateTheme(boolVal);
+                                .updateTheme();
                           },
                         ),
                       ],
