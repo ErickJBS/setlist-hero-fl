@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:setlistherofl/models/event.dart';
 import 'package:intl/intl.dart';
 import 'package:setlistherofl/screens/setlist/index.dart';
-import 'package:setlistherofl/screens/song_viewer/index.dart';
 import 'styles.dart';
 
 class EventItem extends StatelessWidget {
@@ -19,7 +18,6 @@ class EventItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => SetlistScreen(event),
-            //builder: (context) => SongViewerScreen(index: 0, songs: null),
           ),
         );
       },

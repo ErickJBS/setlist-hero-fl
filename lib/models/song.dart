@@ -40,7 +40,7 @@ class Song {
     band = data['band'],
     lyrics = data['lyrics'],
     chords = data['chords'],
-    tempo = int.parse(data['tempo']),
+    tempo = data['tempo'],
     sheets = _getSheets(data['sheets']),
     tags = toStringArray(data['tags']);
   
@@ -65,7 +65,7 @@ class Song {
     if (sheets != null) {
       return sheets.map((e) => Sheet.fromMap(e)).toList();
     }
-    return null;
+    return List<Sheet>();
   }
 }
 

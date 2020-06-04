@@ -24,10 +24,18 @@ class Set {
 
   static List<Song> _getSongs(dynamic data) {
     List<dynamic> songs = data;
+    print(data);
     if (songs != null) {
-      return songs.map((e) => Song.fromMap(e)).toList();
+      return songs.map((e) {
+        try {
+          return Song.fromMap(e);
+        } catch (e) {
+          print(e);
+          return Song();
+        }
+      }).toList();
     }
-    return null;
+    return List<Song>();
   }
 }
 
@@ -82,7 +90,7 @@ class Event {
     if (sets != null) {
       return sets.map((e) => Set.fromMap(e)).toList();
     }
-    return null;
+    return List<Set>();
   }
 }
 
