@@ -18,8 +18,8 @@ class EventItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            //builder: (context) => SetlistScreen(event),
-            builder: (context) => SongViewerScreen(index: 0, songs: null),
+            builder: (context) => SetlistScreen(event),
+            //builder: (context) => SongViewerScreen(index: 0, songs: null),
           ),
         );
       },

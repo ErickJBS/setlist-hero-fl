@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:quill_delta/quill_delta.dart';
 import 'package:setlistherofl/models/song.dart';
+import 'package:setlistherofl/screens/song_viewer/widgets/textspan_builder.dart';
+import 'package:setlistherofl/service_locator.dart';
+import 'package:setlistherofl/services/song_service.dart';
+import 'package:setlistherofl/utils/textspan_utils.dart';
 
 class ChrodsViewer extends StatefulWidget {
   PageController pageController;
@@ -16,18 +22,16 @@ class ChrodsViewer extends StatefulWidget {
 }
 
 class _ChrodsViewerState extends State<ChrodsViewer> {
-  List<Widget> pages = [];
-  var _size = 10.0;
-  var _supersize = 10.0;
+  double _viewerFontScale = 1.0;
 
   Widget _generateCardContent(List<TextSpan> list) {
     return GestureDetector(
         onScaleUpdate: (ScaleUpdateDetails details) {
-          print(details.scale);
-          if (details.scale <= 1.5 && details.scale >= 0.5)
+          if (details.scale <= 1.5 && details.scale >= 0.5) {
             setState(() {
-              _size = _supersize * details.scale;
+              _viewerFontScale = details.scale;
             });
+          }
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
@@ -42,61 +46,62 @@ class _ChrodsViewerState extends State<ChrodsViewer> {
         ));
   }
 
-  var _prevSize;
+  static SongService _songService = locator<SongService>();
+
+  Future<List<Song>> _getSongsLyrics(List<Song> songs) async {
+    List<Song> songsAndLyrics = [];
+
+    for (Song element in songs) {
+      songsAndLyrics.add(await _songService.findById(element.id));
+    }
+
+    return songsAndLyrics;
+  }
+
+  List<Widget> _generateChordsCards(List<Song> songsAndChords) {
+    List<Widget> cards = [];
+    TextSpanBuilder builder = new TextSpanBuilder(scale: _viewerFontScale);
+
+    for (Song element in songsAndChords) {
+      var doc = Delta.fromJson(element.chords['ops']);
+      cards.add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder)));
+    }
+
+    return cards;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<TextSpan> list = [
-      TextSpan(text: '''
-[Verse]
- A                        Bm
-En un dia de estos en que suelo pensar
- F#m                       C#m
-Hoy va hacer el dia menos pensado
- D                     A
-nos hemos cruzado has decidido mirar
-        E         D              A
-a los ojitos azules que ahora van a tu lado
- 
- A                        Bm
-En este momento en que te conocí
- F#m                    C#m
-resumiendo con prisa tiempo de silencio
- D                    A
-te juro que a nadie le e vuelto a decir
-       E           D                A
-que tenemos el record del mundo en querernos
-''', style: TextStyle(color: Colors.black, fontSize: _size)),
-      TextSpan(text: '''
-[Verse]
- A                        Bm
-En un dia de estos en que suelo pensar
- F#m                       C#m
-Hoy va hacer el dia menos pensado
- D                     A
-nos hemos cruzado has decidido mirar
-        E         D              A
-a los ojitos azules que ahora van a tu lado
- 
- A                        Bm
-En este momento en que te conocí
- F#m                    C#m
-resumiendo con prisa tiempo de silencio
- D                    A
-te juro que a nadie le e vuelto a decir
-       E           D                A
-que tenemos el record del mundo en querernos
-''', style: TextStyle(color: Colors.black, fontSize: _size))
-    ];
-    var superSize = 12.0;
-
-    return PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: widget.pageController,
-      children: <Widget>[
-        _generateCardContent(list),
-        _generateCardContent(list),
-      ],
+    var somethingWrong = Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            MdiIcons.emoticonSad,
+            size: 60.0,
+          ),
+          Text('Something went wrong, try later')
+        ],
+      ),
     );
+
+    return FutureBuilder(
+        future: _getSongsLyrics(widget.songs),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            var songsAndChords = snapshot.data;
+            if (songsAndChords == null) {
+              return somethingWrong;
+            }
+            return PageView(
+                controller: widget.pageController,
+                children: _generateChordsCards(songsAndChords));
+          }
+          if (snapshot.connectionState == ConnectionState.none) {
+            return somethingWrong;
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 }

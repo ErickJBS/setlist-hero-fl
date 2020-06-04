@@ -61,33 +61,6 @@ class _SheetsViewerState extends State<SheetsViewer> {
 
   @override
   Widget build(BuildContext context) {
-    /*var right = SheetMusic(
-      height: (MediaQuery.of(context).size.width * 0.9 / 1.97),
-      width: MediaQuery.of(context).size.width,
-      trebleClef: true,
-      scale: "Gb Major",
-      pitch: 'A4',
-      pitchTap: () {
-        print('ppop');
-      },
-      clefTap: () {
-        print('asd');
-      },
-    );
-
-    var left = SheetMusic(
-      height: (MediaQuery.of(context).size.width * 0.9 / 1.97),
-      width: MediaQuery.of(context).size.width,
-      trebleClef: false,
-      scale: "C Major",
-      pitch: 'A5',
-      pitchTap: () {
-        print('ppop');
-      },
-      clefTap: () {
-        print('asd');
-      },
-    );*/
 
     return PageView(controller: controller,
         children: <Widget>[Text('asd'), Text('asdasd'),]);

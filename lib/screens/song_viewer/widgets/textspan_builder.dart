@@ -6,7 +6,7 @@ class TextSpanBuilder {
   static final double _base = 28.0;
   static final double _baseIncrement = 4.0;
   
-  double increment;
+  double scale;
   
   bool _bold = false;
   bool _italic = false;
@@ -18,7 +18,7 @@ class TextSpanBuilder {
   Color _color;
   Color _background;
 
-  TextSpanBuilder({this.increment});
+  TextSpanBuilder({this.scale});
 
   void clear() {
     _text = '';
@@ -102,7 +102,7 @@ class TextSpanBuilder {
       fontStyle: _italic ? FontStyle.italic : null,
       decoration: _underline ? TextDecoration.underline : null,
       backgroundColor: _backgroundFlag ? _background : null,
-      fontSize: _size + increment
+      fontSize: _size * scale
     );
     return TextSpan(text: _text, style: textStyle);
   }
