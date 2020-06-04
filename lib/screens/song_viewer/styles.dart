@@ -6,3 +6,6 @@ const appBarTitleStyle = TextStyle(fontFamily: _montserratFontFamily, color: Col
 
 final fabBackgroundColor = Colors.grey[100];
 final fabIconColor = Colors.black87;
+
+final controllerDuration =  Duration(milliseconds: 500);
+final controllerCurve = Curves.ease;

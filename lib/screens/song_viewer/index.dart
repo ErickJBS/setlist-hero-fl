@@ -6,6 +6,8 @@ import 'package:setlistherofl/screens/song_viewer/styles.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/chords_viewer/index.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/lyrics_viewer/index.dart';
 import 'package:setlistherofl/screens/song_viewer/widgets/sheets_viewer/index.dart';
+import 'package:setlistherofl/service_locator.dart';
+import 'package:setlistherofl/services/song_service.dart';
 
 class SongViewerScreen extends StatefulWidget {
   final List<Song> songs;
@@ -18,15 +20,41 @@ class SongViewerScreen extends StatefulWidget {
 }
 
 class _SongViewerState extends State<SongViewerScreen> {
-  int _selectedIndex = 0;
+  List<Song> _fullSongsData = [];
+  int _selectedTabIndex = 0;
+  int _selectedSongIndex;
+  String _title;
+  bool _isLoading = true;
   PageController _controller;
-  Duration _pageSwapDuration = Duration(milliseconds: 500);
-  Curve _pageSwapCurve = Curves.ease;
+  static SongService _songService = locator<SongService>();
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedTabIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedSongIndex = widget.index;
+    _title = widget.songs[_selectedSongIndex].name;
+    _loadSongs().then((value) => {
+          setState(() {
+            _fullSongsData = value;
+            _isLoading = false;
+          })
+        });
+  }
+
+  Future<List<Song>> _loadSongs() async {
+    List<Song> songs = [];
+
+    for (Song element in widget.songs) {
+      songs.add(await _songService.findById(element.id));
+    }
+
+    return songs;
   }
 
   Widget _getFabButton(var fabIcon, var callback) {
@@ -41,44 +69,59 @@ class _SongViewerState extends State<SongViewerScreen> {
         onPressed: callback);
   }
 
-  void _initPageController(int index) {
-    _controller = PageController(initialPage: index, viewportFraction: 0.9);
+  void _initPageController() {
+    _controller =
+        PageController(initialPage: _selectedSongIndex, viewportFraction: 0.9);
   }
 
   void _nextPage() {
-    _controller.nextPage(duration: _pageSwapDuration, curve: _pageSwapCurve);
+    if (_selectedSongIndex < widget.songs.length - 1) {
+      setState(() {
+        _selectedSongIndex++;
+        _title = widget.songs[_selectedSongIndex].name;
+      });
+    }
+
+    _controller.nextPage(duration: controllerDuration, curve: controllerCurve);
   }
 
   void _prevPage() {
+    if (_selectedSongIndex > 0) {
+      setState(() {
+        _selectedSongIndex--;
+        _title = widget.songs[_selectedSongIndex].name;
+      });
+    }
+
     _controller.previousPage(
-        duration: _pageSwapDuration, curve: _pageSwapCurve);
+        duration: controllerDuration, curve: controllerCurve);
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Song> songs = widget.songs;
-    int songIndex = widget.index;
-
-    _initPageController(songIndex);
+    _initPageController();
 
     var tabs = [
       LyricsViewer(
         pageController: _controller,
+        songs: _fullSongsData,
+        index: _selectedSongIndex,
       ),
       ChrodsViewer(
         pageController: _controller,
+        songs: _fullSongsData,
+        index: _selectedSongIndex,
       ),
-      SheetsViewer(pageController: _controller,)
+      SheetsViewer(
+        pageController: _controller,
+      )
     ];
 
     AppBar appBar = AppBar(
       centerTitle: true,
       elevation: 0.0,
       backgroundColor: Colors.white,
-      title: Text(
-          //songs[songIndex].name,
-          'DEMO',
-          style: appBarTitleStyle),
+      title: Text(_title, style: appBarTitleStyle),
       leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -90,7 +133,7 @@ class _SongViewerState extends State<SongViewerScreen> {
     );
 
     var bottomNavigatorBar = BottomNavigationBar(
-      currentIndex: _selectedIndex,
+      currentIndex: _selectedTabIndex,
       selectedItemColor: Colors.orangeAccent[700],
       onTap: _onItemTapped,
       items: <BottomNavigationBarItem>[
@@ -103,9 +146,14 @@ class _SongViewerState extends State<SongViewerScreen> {
       ],
     );
 
+    var loading = Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Center(child: CircularProgressIndicator()));
+
     var body = Stack(
       children: <Widget>[
-        tabs[_selectedIndex],
+        tabs[_selectedTabIndex],
         Positioned(
             bottom: 8.0,
             right: 8.0,
@@ -118,6 +166,8 @@ class _SongViewerState extends State<SongViewerScreen> {
     );
 
     return Scaffold(
-        appBar: appBar, bottomNavigationBar: bottomNavigatorBar, body: body);
+        appBar: appBar,
+        bottomNavigationBar: bottomNavigatorBar,
+        body: _isLoading ? loading : body);
   }
 }
