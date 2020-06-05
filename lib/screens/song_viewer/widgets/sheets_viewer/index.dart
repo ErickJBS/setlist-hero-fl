@@ -34,7 +34,7 @@ class SheetsViewer extends StatefulWidget {
 
 class _SheetsViewerState extends State<SheetsViewer> {
   static StorageService _storageService = locator<StorageService>();
-  List<PdfView> pdfViews = [];
+  List<PdfView> _pdfViews = [];
   List<Status> status = [];
   List<_DropdownValueInfo> _dropdownValues = [];
   List<List<Sheet>> _setSheets = [];
@@ -44,32 +44,34 @@ class _SheetsViewerState extends State<SheetsViewer> {
     super.initState();
     _initSetSheets();
     _initDropdownValues();
+    _initPdfViews();
+    _loadPdf();
   }
 
   @override
   void dispose() {
+    _disposePdfControllers();
     super.dispose();
   }
 
   void _loadPdf() {
-    int currentDisplayIndex = 0;
+    var info = _dropdownValues[widget.index];
 
-    _storageService
-        .downloadFile(
-            'https://storage.googleapis.com/setlist-hero.appspot.com/1591236132603_led_zeppelin-stairway_to_heaven.pdf')
-        .then((value) {
-      var controller =
-          PdfController(document: PdfDocument.openFile(value.path));
+    if (info.status != Status.noContent) {
+      _storageService.downloadFile(info.url).then((value) {
+        var controller =
+            PdfController(document: PdfDocument.openFile(value.path));
 
-      setState(() {
-        status[currentDisplayIndex] = Status.loaded;
-        pdfViews[currentDisplayIndex] = PdfView(
-          controller: controller,
-          documentLoader: CircularProgressIndicator(),
-          pageLoader: CircularProgressIndicator(),
-        );
+        setState(() {
+          info.status = Status.loaded;
+          _pdfViews[widget.index] = PdfView(
+            controller: controller,
+            documentLoader: Center(child: CircularProgressIndicator()),
+            pageLoader: Center(child: CircularProgressIndicator()),
+          );
+        });
       });
-    });
+    }
   }
 
   void _initSetSheets() {
@@ -95,19 +97,42 @@ class _SheetsViewerState extends State<SheetsViewer> {
     });
   }
 
-  List<String> _getListOfInstruments(int index) {
-    List<String> listOfInstruments = [];
+  void _initPdfViews() {
+    int size = widget.songs.length;
+
+    for (int i = 0; i < size; i++) {
+      _pdfViews.add(null);
+    }
+  }
+
+  List<_DropdownValueInfo> _getListOfInstruments(int index) {
+    List<_DropdownValueInfo> listOfInstruments = [];
+    int index = 0;
+
     _setSheets[index].forEach((element) {
-      listOfInstruments.add(element.instrument);
+      listOfInstruments.add(_DropdownValueInfo(
+          content: element.instrument,
+          index: index,
+          status: Status.isLoading,
+          url: element.content));
     });
 
     return listOfInstruments;
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownItems(
-      List<String> listOfInstruments) {
-    return listOfInstruments.map<DropdownMenuItem<String>>((e) {
-      return DropdownMenuItem<String>(value: e, child: Text(e));
+  void _disposePdfControllers() {
+    _pdfViews.forEach((element) {
+      if (element != null) {
+        element.controller.dispose();
+      }
+     });
+  }
+
+  List<DropdownMenuItem<_DropdownValueInfo>> _buildDropdownItems(
+      List<_DropdownValueInfo> listOfInstruments) {
+    return listOfInstruments.map<DropdownMenuItem<_DropdownValueInfo>>((e) {
+      return DropdownMenuItem<_DropdownValueInfo>(
+          value: e, child: Text(e.content));
     }).toList();
   }
 
@@ -119,11 +144,11 @@ class _SheetsViewerState extends State<SheetsViewer> {
     if (instruments.isNotEmpty) {
       items = _buildDropdownItems(instruments);
     } else {
-      items = _buildDropdownItems([_dropdownValues[index].content]);
+      items = _buildDropdownItems([_dropdownValues[index]]);
     }
 
-    return DropdownButton<String>(
-      value: _dropdownValues[index].content,
+    return DropdownButton<_DropdownValueInfo>(
+      value: _dropdownValues[index],
       icon: Icon(Icons.arrow_drop_down),
       iconSize: 24,
       elevation: 16,
@@ -133,9 +158,9 @@ class _SheetsViewerState extends State<SheetsViewer> {
         height: 0,
       ),
       onChanged: isEnable
-          ? (String newValue) {
+          ? (_DropdownValueInfo newValue) {
               setState(() {
-                _dropdownValues[index].content = newValue;
+                _dropdownValues[index] = newValue;
               });
             }
           : null,
@@ -169,14 +194,30 @@ class _SheetsViewerState extends State<SheetsViewer> {
   }
 
   Widget _buildCard(List<Widget> widgets) {
-    return Column(children: widgets,);
+    return Column(
+      children: widgets,
+    );
   }
 
   List<Widget> _buildCards() {
     List<Widget> cards = [];
+    var loading = Container(child: Center(child: CircularProgressIndicator()));
+    int size = widget.songs.length;
 
-    cards.add(_buildCard([_buildDropdownCard(0), _buildSheetCard(Text('asd'))]));
-    cards.add(_buildCard([_buildDropdownCard(1), _buildSheetCard(Text('asd'))]));
+    for (int i = 0; i < size; i++) {
+      cards.add(_buildCard([
+        _buildDropdownCard(i),
+        _dropdownValues[i].status == Status.noContent
+            ? Expanded(
+                child: FeedbackMessage(
+                    icon: MdiIcons.textBoxRemove,
+                    message: 'No content for this song'),
+              )
+            : _buildSheetCard(_dropdownValues[i].status == Status.isLoading
+                ? loading
+                : _pdfViews[i])
+      ]));
+    }
     return cards;
   }
 
@@ -185,6 +226,9 @@ class _SheetsViewerState extends State<SheetsViewer> {
     print(_setSheets);
 
     return PageView(
+      onPageChanged: (value) {
+        _loadPdf();
+      },
       physics: NeverScrollableScrollPhysics(),
       controller: widget.pageController,
       children: _buildCards(),
