@@ -57,7 +57,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
   void _loadPdf() {
     var info = _dropdownValues[widget.index];
 
-    if (info.status != Status.noContent) {
+    if (info.status == Status.isLoading) {
       _storageService.downloadFile(info.url).then((value) {
         var controller =
             PdfController(document: PdfDocument.openFile(value.path));
