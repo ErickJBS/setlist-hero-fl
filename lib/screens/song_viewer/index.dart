@@ -47,6 +47,12 @@ class _SongViewerState extends State<SongViewerScreen> {
         });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Future<List<Song>> _loadSongs() async {
     List<Song> songs = [];
 
@@ -114,6 +120,8 @@ class _SongViewerState extends State<SongViewerScreen> {
       ),
       SheetsViewer(
         pageController: _controller,
+        songs: _fullSongsData,
+        index: _selectedSongIndex,
       )
     ];
 

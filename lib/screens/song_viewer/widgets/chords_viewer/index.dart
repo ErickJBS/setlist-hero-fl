@@ -53,7 +53,7 @@ class _ChrodsViewerState extends State<ChrodsViewer> {
       if (element.lyrics == null) {
         cards.add(FeedbackMessage(icon: MdiIcons.textBoxRemove, message: 'No content for this song'));
       } else {
-        var doc = Delta.fromJson(element.lyrics['ops']);
+        var doc = Delta.fromJson(element.chords['ops']);
         cards
             .add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder)));
       }
