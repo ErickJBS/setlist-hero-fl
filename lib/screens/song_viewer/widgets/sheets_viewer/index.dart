@@ -156,6 +156,30 @@ class _SheetsViewerState extends State<SheetsViewer> {
         ));
   }
 
+  Widget _buildSheetCard(Widget body) {
+    return Expanded(
+        child: Container(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+          child: Card(
+            child: Padding(padding: const EdgeInsets.all(8.0), child: body),
+          )),
+    ));
+  }
+
+  Widget _buildCard(List<Widget> widgets) {
+    return Column(children: widgets,);
+  }
+
+  List<Widget> _buildCards() {
+    List<Widget> cards = [];
+
+    cards.add(_buildCard([_buildDropdownCard(0), _buildSheetCard(Text('asd'))]));
+    cards.add(_buildCard([_buildDropdownCard(1), _buildSheetCard(Text('asd'))]));
+    return cards;
+  }
+
   @override
   Widget build(BuildContext context) {
     print(_setSheets);
@@ -163,7 +187,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
     return PageView(
       physics: NeverScrollableScrollPhysics(),
       controller: widget.pageController,
-      children: <Widget>[_buildDropdownCard(0)],
+      children: _buildCards(),
     );
   }
 }
