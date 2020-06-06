@@ -1,76 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:setlistherofl/routes.dart';
-import 'package:setlistherofl/services/auth_service.dart';
-import 'package:setlistherofl/service_locator.dart';
 import 'widgets/event_viewer/index.dart';
 import 'package:setlistherofl/utils/date_utils.dart';
 import 'styles.dart';
+import 'package:setlistherofl/screens/settings/index.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
-  
-  static AuthService _auth = locator<AuthService>();
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List<dynamic> menuOptions = <dynamic> [
-    { 'label': 'Logout', 'callback': _logout },
-  ];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
 
-  static Future<void> _logout(BuildContext context) async {
-    try{
-      await _auth.logout();
-      Navigator.pushNamedAndRemoveUntil(context, loginRoute, (route) => false);
-    } catch(e){
-      print('Failed to signOut' + e.toString());
-    }
-  }
-
-  void _onOptionSelected(dynamic option) async {
-    var callback = option['callback'];
-    await callback(context);
-  }
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.color,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('Setlist Hero',
-          style: TextStyle(
-            color: Colors.black87,
-            fontFamily: 'Montserrat',
-          ),
+        title: Text(
+          'Setlist Hero',
+          style: Theme.of(context).textTheme.headline6,
         ),
         actions: <Widget>[
-          PopupMenuButton<dynamic>(
-            icon: Icon(
-              FontAwesomeIcons.ellipsisV,
-              color: Colors.black87,
-              size: 18,
+          IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).iconTheme.color,
+                size: 18,
+              ),
+              onPressed: () {
+                //Navigate to Settings screen
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => SettingsScreen()
+                ));
+              },
             ),
-            onSelected: _onOptionSelected,
-            itemBuilder: (BuildContext context) {
-              return menuOptions.map((option) {
-                return PopupMenuItem<dynamic>(
-                  value: option,
-                  child: Text(option['label'])
-                );
-              }).toList();
-            },
-          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -78,23 +50,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 10.0,),
+            SizedBox(
+              height: 10.0,
+            ),
             Text(
               'Events',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Montserrat',
-                fontSize: 30,
-              ),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
-                labelColor: tabLabelColor,
+                labelColor: Theme.of(context).tabBarTheme.labelColor,
                 isScrollable: true,
                 labelPadding: EdgeInsets.only(right: 45.0),
-                unselectedLabelColor: tabUnselectedLabelColor,
+                unselectedLabelColor:
+                    Theme.of(context).tabBarTheme.unselectedLabelColor,
                 tabs: [
                   Tab(
                     child: Text(

@@ -38,18 +38,14 @@ class _SetlistScreenState extends State<SetlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.color,
         elevation: 0.0,
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: Colors.black87,
+          color: Theme.of(context).iconTheme.color,
         ),
-        title: Text(
-          widget.event.name,
-          style: TextStyle(
-            color: Colors.black87,
-            fontFamily: 'Montserrat',
-          ),
+        title: Text(widget.event.name,
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: SingleChildScrollView(
