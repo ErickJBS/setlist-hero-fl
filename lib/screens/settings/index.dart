@@ -6,7 +6,7 @@ import 'package:setlistherofl/services/auth_service.dart';
 import 'package:setlistherofl/service_locator.dart';
 import 'package:setlistherofl/routes.dart';
 
-class Settings extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   static const List<String> litems = <String>["Dark theme", "Logout"];
 
   static AuthService _auth = locator<AuthService>();

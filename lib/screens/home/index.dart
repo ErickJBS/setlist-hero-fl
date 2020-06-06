@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:setlistherofl/routes.dart';
-import 'package:setlistherofl/services/auth_service.dart';
-import 'package:setlistherofl/service_locator.dart';
 import 'widgets/event_viewer/index.dart';
 import 'styles.dart';
-import 'package:provider/provider.dart' as prov;
-import 'package:setlistherofl/AppStateNotifier.dart';
 import 'package:setlistherofl/screens/settings/index.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,20 +8,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  static AuthService _auth = locator<AuthService>();
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   TabController _tabController;
-//  List<dynamic> menuOptions = <dynamic>[
-//    {'label': 'Logout', 'callback': _logout},
-//  ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +38,10 @@ class _HomeScreenState extends State<HomeScreen>
               onPressed: () {
                 //Navigate to Settings screen
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => Settings()
+                    builder: (context) => SettingsScreen()
                 ));
               },
             ),
-
         ],
       ),
       body: SingleChildScrollView(

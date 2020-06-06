@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:setlistherofl/models/event.dart';
 import 'package:intl/intl.dart';
 import 'package:setlistherofl/screens/setlist/index.dart';
-import 'styles.dart';
 
 class EventItem extends StatelessWidget {
   static DateFormat formatter = new DateFormat('yyyy-MM-dd');
