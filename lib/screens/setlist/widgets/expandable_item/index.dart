@@ -14,7 +14,7 @@ class ExpandableItem extends StatelessWidget {
     if (songs.isEmpty) return ListTile(title: Text(title));
     return ExpansionTile(
       initiallyExpanded: initiallyExpanded,
-      title: Text(title),
+      title: Text(title, style: Theme.of(context).textTheme.bodyText2,),
       children: _populateChildren(),
     );
   }

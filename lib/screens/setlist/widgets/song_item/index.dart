@@ -13,6 +13,8 @@ class SongItem extends StatelessWidget {
     Song item = songs[index];
 
     return Card(
+      color: Theme.of(context).backgroundColor,
+      shadowColor: Theme.of(context).cardTheme.shadowColor,
       child: InkWell(
         onTap: () {
           Navigator.push(
