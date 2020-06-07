@@ -6,7 +6,7 @@ import 'colors_util.dart';
 abstract class TextSpanUtils {
   TextSpanUtils();
 
-  static List<TextSpan> DeltaToList(Delta doc, TextSpanBuilder builder) {
+  static List<TextSpan> DeltaToList(Delta doc, TextSpanBuilder builder, Color defaultColor) {
     List<TextSpan> list = [];
 
     for (int i = 0; i < doc.length; i++) {
@@ -35,7 +35,7 @@ abstract class TextSpanUtils {
         }
       }
 
-      list.add(builder.build());
+      list.add(builder.build(defaultColor));
       builder.clear();
     }
 

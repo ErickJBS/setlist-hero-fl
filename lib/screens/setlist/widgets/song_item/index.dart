@@ -28,7 +28,7 @@ class SongItem extends StatelessWidget {
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[Text(item.name), Text(item.tempo.toString())],
+            children: <Widget>[Text(item.name), Text(item.tempo.toString() + 'bpm')],
           ),
         ),
       ),

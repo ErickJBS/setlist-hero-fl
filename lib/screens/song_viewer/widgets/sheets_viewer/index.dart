@@ -174,6 +174,8 @@ class _SheetsViewerState extends State<SheetsViewer> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           child: Card(
+            color: Theme.of(context).backgroundColor,
+            shadowColor: Theme.of(context).cardTheme.shadowColor,
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: _buildDropdown(index)),
@@ -188,6 +190,8 @@ class _SheetsViewerState extends State<SheetsViewer> {
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
           child: Card(
+            color: Theme.of(context).backgroundColor,
+            shadowColor: Theme.of(context).cardTheme.shadowColor,
             child: Padding(padding: const EdgeInsets.all(8.0), child: body),
           )),
     ));

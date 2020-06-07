@@ -94,10 +94,10 @@ class TextSpanBuilder {
     _backgroundFlag = false;
   }
 
-  TextSpan build() {
+  TextSpan build(Color defaultColor) {
     TextStyle textStyle = TextStyle(
       fontFamily: _montserratFontFamily,
-      color: _colorFlag ? _color : Colors.black,
+      color: _colorFlag ? _color : defaultColor,
       fontWeight: _bold ? FontWeight.bold : null,
       fontStyle: _italic ? FontStyle.italic : null,
       decoration: _underline ? TextDecoration.underline : null,

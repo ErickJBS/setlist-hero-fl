@@ -13,6 +13,8 @@ class FeedbackMessage extends StatelessWidget {
    return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
         child: Card(
+          color: Theme.of(context).backgroundColor,
+          shadowColor: Theme.of(context).cardTheme.shadowColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -21,12 +23,12 @@ class FeedbackMessage extends StatelessWidget {
                 children: <Widget>[
                   Icon(
                     icon,
-                    color: feedbackMessageIconColor,
+                    color: Theme.of(context).textTheme.bodyText1.color,
                     size: feedbackIconSize,
                   ),
                   Text(
                     message,
-                    style: feedbackMessageTextStyle,
+                    style: Theme.of(context).textTheme.subtitle2,
                   )
                 ],
               ),

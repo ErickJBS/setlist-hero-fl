@@ -34,6 +34,8 @@ class _LyricsViewerState extends State<LyricsViewer> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
           child: Card(
+            color: Theme.of(context).backgroundColor,
+            shadowColor: Theme.of(context).cardTheme.shadowColor,
             child: SingleChildScrollView(
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -54,7 +56,7 @@ class _LyricsViewerState extends State<LyricsViewer> {
       } else {
         var doc = Delta.fromJson(element.lyrics['ops']);
         cards
-            .add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder)));
+            .add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder, Theme.of(context).textTheme.subtitle2.color)));
       }
     }
 

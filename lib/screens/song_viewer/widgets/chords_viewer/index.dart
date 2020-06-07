@@ -35,6 +35,8 @@ class _ChrodsViewerState extends State<ChrodsViewer> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
           child: Card(
+            color: Theme.of(context).backgroundColor,
+            shadowColor: Theme.of(context).cardTheme.shadowColor,
             child: SingleChildScrollView(
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -55,7 +57,7 @@ class _ChrodsViewerState extends State<ChrodsViewer> {
       } else {
         var doc = Delta.fromJson(element.chords['ops']);
         cards
-            .add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder)));
+            .add(_generateCardContent(TextSpanUtils.DeltaToList(doc, builder, Theme.of(context).textTheme.subtitle2.color)));
       }
     }
 

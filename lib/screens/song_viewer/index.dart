@@ -143,7 +143,8 @@ class _SongViewerState extends State<SongViewerScreen> {
     var bottomNavigatorBar = BottomNavigationBar(
       currentIndex: _selectedTabIndex,
       backgroundColor: Theme.of(context).appBarTheme.color,
-      selectedItemColor: Colors.orangeAccent[700],
+      selectedItemColor: Theme.of(context).tabBarTheme.labelColor,
+      unselectedItemColor: Theme.of(context).tabBarTheme.unselectedLabelColor,
       onTap: _onItemTapped,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
