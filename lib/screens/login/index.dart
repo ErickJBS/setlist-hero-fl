@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
                             child: TextFormField(
+                              style: Theme.of(context).textTheme.bodyText2,
                                 onChanged: (val){
                                     setState(() {
                                       email = val;
@@ -118,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
                           child: TextFormField(
+                            style: Theme.of(context).textTheme.bodyText2,
                             obscureText: true,
                             onChanged: (val){
                               setState(() {

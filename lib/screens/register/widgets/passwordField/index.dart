@@ -20,6 +20,7 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(padding: const EdgeInsets.only(bottom: 16.0), child: TextField(
+      style: Theme.of(context).textTheme.bodyText2,
             controller: controller,
             obscureText: true,
             onChanged: onChangeFoo,
@@ -28,7 +29,7 @@ class PasswordField extends StatelessWidget {
               fillColor: Colors.white,
               errorText: flag ? errorMessage : null,
               labelText: label,
-              labelStyle: TextStyle(fontFamily: _montserratFontFamily)
+              labelStyle: Theme.of(context).textTheme.bodyText2
 
             ),
           ));

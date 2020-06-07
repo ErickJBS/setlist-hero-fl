@@ -128,12 +128,12 @@ class _SongViewerState extends State<SongViewerScreen> {
     AppBar appBar = AppBar(
       centerTitle: true,
       elevation: 0.0,
-      backgroundColor: Colors.white,
-      title: Text(_title, style: appBarTitleStyle),
+      backgroundColor: Theme.of(context).appBarTheme.color,
+      title: Text(_title, style: Theme.of(context).textTheme.headline6),
       leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black87,
+            color: Theme.of(context).iconTheme.color,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -142,11 +142,12 @@ class _SongViewerState extends State<SongViewerScreen> {
 
     var bottomNavigatorBar = BottomNavigationBar(
       currentIndex: _selectedTabIndex,
+      backgroundColor: Theme.of(context).appBarTheme.color,
       selectedItemColor: Colors.orangeAccent[700],
       onTap: _onItemTapped,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.music_note), title: Text('Lyrics')),
+            icon: Icon(Icons.music_note), title: Text('Lyrics'), backgroundColor: Theme.of(context).iconTheme.color),
         BottomNavigationBarItem(
             icon: Icon(Icons.queue_music), title: Text('Chords')),
         BottomNavigationBarItem(

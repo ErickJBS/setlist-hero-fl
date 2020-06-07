@@ -27,12 +27,13 @@ class NormalTextField extends StatelessWidget {
     return Padding(        
         padding: const EdgeInsets.only(bottom: 16.0),
         child: TextField(
+          style: Theme.of(context).textTheme.bodyText2,
             controller: controller,
             onChanged: onChangeFoo,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: label,
                 errorText: flag ? errorMessage : null,
-                labelStyle: TextStyle(fontFamily: _montserratFontFamily))));
+                labelStyle: Theme.of(context).textTheme.bodyText2)));
   }
 }

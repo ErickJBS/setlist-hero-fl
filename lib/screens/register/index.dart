@@ -182,9 +182,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Colors.orange[900],
-              Colors.orange[800],
-              Colors.orange[400]
+              Color.fromARGB(220, 26, 62, 147),
+              Color.fromARGB(230, 80, 101, 149),
+              Color.fromARGB(200, 156, 175, 219),
             ]),
           ),
           child: Container(
@@ -214,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0)),
@@ -263,18 +263,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        color: Colors.orangeAccent[700]),
+                        color: Color.fromARGB(255, 26, 62, 147)),
                     child: FlatButton(
                         onPressed: _registerUser,
                         child: Text(
                           'REGISTER',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              fontFamily: _montserratFontFamily),
-                        )),
-                  ),
+                          style: Theme.of(context).textTheme.headline5
+                          ),
+                  )),
                   Container(
                       margin: EdgeInsetsDirectional.only(top: 16.0),
                       child: RichText(
@@ -285,12 +281,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontFamily: 'Montserrat',
                               ),
                               children: <TextSpan>[
-                            TextSpan(text: "Have an account? "),
+                            TextSpan(text: "Have an account? ", style: Theme.of(context).textTheme.bodyText2),
                             TextSpan(
                                 text: "Login",
                                 style: TextStyle(
                                   fontFamily: _montserratFontFamily,
-                                    color: Colors.orangeAccent[400],
+                                    color: Color.fromARGB(255, 156, 175, 219),
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline),
                                 recognizer: TapGestureRecognizer()
