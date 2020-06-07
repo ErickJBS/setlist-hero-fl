@@ -8,7 +8,7 @@ class AppStateNotifier extends ChangeNotifier {
   bool get darkTheme => isDarkModeOn;
 
   AppStateNotifier(){
-    isDarkModeOn = true;
+    isDarkModeOn = false;
     _loadFromPrefs();
   }
 
@@ -26,7 +26,7 @@ class AppStateNotifier extends ChangeNotifier {
 
   _loadFromPrefs()async{
     await _initPrefs();
-    isDarkModeOn = _prefs.getBool(key) ?? true;
+    isDarkModeOn = _prefs.getBool(key) ?? false;
     notifyListeners();
   }
 
