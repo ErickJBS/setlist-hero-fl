@@ -66,6 +66,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
           info.status = Status.loaded;
           _pdfViews[widget.index] = PdfView(
             controller: controller,
+            scrollDirection: Axis.vertical,
             documentLoader: Center(child: CircularProgressIndicator()),
             pageLoader: Center(child: CircularProgressIndicator()),
           );
@@ -132,7 +133,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
       List<_DropdownValueInfo> listOfInstruments) {
     return listOfInstruments.map<DropdownMenuItem<_DropdownValueInfo>>((e) {
       return DropdownMenuItem<_DropdownValueInfo>(
-          value: e, child: Text(e.content));
+          value: e, child: Text(e.content, style: Theme.of(context).textTheme.subtitle2,));
     }).toList();
   }
 
@@ -150,9 +151,10 @@ class _SheetsViewerState extends State<SheetsViewer> {
     return DropdownButton<_DropdownValueInfo>(
       value: _dropdownValues[index],
       icon: Icon(Icons.arrow_drop_down),
+      dropdownColor: Theme.of(context).backgroundColor,
       iconSize: 24,
-      elevation: 16,
-      hint: Text('No instruments available'),
+      elevation: 16,      
+      hint: Text('No instruments available', style: Theme.of(context).textTheme.subtitle2),
       style: dropdownTextStyle,
       underline: Container(
         height: 0,
