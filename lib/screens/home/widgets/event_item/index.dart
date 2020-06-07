@@ -38,7 +38,7 @@ class EventItem extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(event.name ?? '',
-                  style: EventTextStyle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
                 Text(event.bandName ?? '',
                   style: Theme.of(context).textTheme.bodyText2,
