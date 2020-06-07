@@ -31,8 +31,7 @@ class _EventViewerState extends State<EventViewer> {
   void _loadEvents() async {
     var user = await authService.getCurrentUser();
     EventFilter filter = EventFilter(
-      // TODO: uncomment when we have enough test data
-      //musician: user.id,
+      musician: user.id,
       startDate: widget.startDate.toString(),
       endDate: widget.endDate.toString()
     );

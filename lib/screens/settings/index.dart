@@ -7,8 +7,6 @@ import 'package:setlistherofl/service_locator.dart';
 import 'package:setlistherofl/routes.dart';
 
 class SettingsScreen extends StatelessWidget {
-  static const List<String> litems = <String>["Dark theme", "Logout"];
-
   static AuthService _auth = locator<AuthService>();
 
   static Future<void> _logout(BuildContext context) async {
@@ -42,26 +40,29 @@ class SettingsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(padding: EdgeInsets.all(5)),
-                        SizedBox(height: 10),
-                        Text(
-                          litems.elementAt(0),
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                        SizedBox(height: 40),
-                        Switch(
-                          value: prov.Provider.of<AppStateNotifier>(context,
-                              listen: false)
-                              .darkTheme,
-                          onChanged: (boolVal) {
-                            prov.Provider.of<AppStateNotifier>(context,
-                                listen: false)
-                                .updateTheme();
-                          },
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Dark Theme',
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                          Spacer(
+                            flex: 1,
+                          ),
+                          Switch(
+                            value: prov.Provider.of<AppStateNotifier>(context,
+                                    listen: false)
+                                .darkTheme,
+                            onChanged: (boolVal) {
+                              prov.Provider.of<AppStateNotifier>(context,
+                                      listen: false)
+                                  .updateTheme();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     Divider(),
                     Row(
@@ -74,7 +75,7 @@ class SettingsScreen extends StatelessWidget {
                             _logout(context);
                           },
                           child: Text(
-                            litems.elementAt(1),
+                            'LOGOUT',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 15.0,
