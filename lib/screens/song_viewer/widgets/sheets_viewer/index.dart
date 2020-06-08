@@ -164,6 +164,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
               setState(() {
                 _dropdownValues[index] = newValue;
               });
+              _loadPdf();
             }
           : null,
       items: items,

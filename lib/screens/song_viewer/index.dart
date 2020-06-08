@@ -152,7 +152,7 @@ class _SongViewerState extends State<SongViewerScreen> {
         BottomNavigationBarItem(
             icon: Icon(Icons.queue_music), title: Text('Chords')),
         BottomNavigationBarItem(
-            icon: Icon(MdiIcons.musicClefBass), title: Text('Tabs'))
+            icon: Icon(MdiIcons.musicClefBass), title: Text('Sheets'))
       ],
     );
 

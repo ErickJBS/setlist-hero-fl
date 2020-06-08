@@ -101,7 +101,7 @@ class TextSpanBuilder {
       fontWeight: _bold ? FontWeight.bold : null,
       fontStyle: _italic ? FontStyle.italic : null,
       decoration: _underline ? TextDecoration.underline : null,
-      backgroundColor: _backgroundFlag ? _background : null,
+      backgroundColor: _backgroundFlag ? _background : Colors.transparent,
       fontSize: _size * scale
     );
     return TextSpan(text: _text, style: textStyle);
