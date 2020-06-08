@@ -8,7 +8,7 @@ import 'package:setlistherofl/screens/song_viewer/widgets/sheets_viewer/style.da
 import 'package:setlistherofl/service_locator.dart';
 import 'package:setlistherofl/services/storage_service.dart';
 
-enum Status { isLoading, noContent, loaded }
+enum Status { isLoading, noContent, loaded, partial }
 
 class _DropdownValueInfo {
   int index;
@@ -17,6 +17,11 @@ class _DropdownValueInfo {
   Status status;
 
   _DropdownValueInfo({this.index, this.content, this.status, this.url});
+
+  @override
+  String toString() {
+    return content;
+  }
 }
 
 class SheetsViewer extends StatefulWidget {
@@ -57,6 +62,10 @@ class _SheetsViewerState extends State<SheetsViewer> {
   void _loadPdf() {
     var info = _dropdownValues[widget.index];
 
+    if (info.url.isEmpty || info == null || info.url == null) {
+      info.status = Status.partial;
+    }
+    
     if (info.status == Status.isLoading) {
       _storageService.downloadFile(info.url).then((value) {
         var controller =
@@ -73,6 +82,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
         });
       });
     }
+    
   }
 
   void _initSetSheets() {
@@ -106,17 +116,14 @@ class _SheetsViewerState extends State<SheetsViewer> {
     }
   }
 
-  List<_DropdownValueInfo> _getListOfInstruments(int index) {
-    List<_DropdownValueInfo> listOfInstruments = [];
-    int index = 0;
+  List<String> _getListOfInstruments(int index) {
+    List<String> listOfInstruments = [];
+
+    
 
     _setSheets[index].forEach((element) {
-      listOfInstruments.add(_DropdownValueInfo(
-          content: element.instrument,
-          index: index,
-          status: Status.isLoading,
-          url: element.content));
-    });
+      listOfInstruments.add(element.instrument);
+      });
 
     return listOfInstruments;
   }
@@ -129,45 +136,56 @@ class _SheetsViewerState extends State<SheetsViewer> {
      });
   }
 
-  List<DropdownMenuItem<_DropdownValueInfo>> _buildDropdownItems(
-      List<_DropdownValueInfo> listOfInstruments) {
-    return listOfInstruments.map<DropdownMenuItem<_DropdownValueInfo>>((e) {
-      return DropdownMenuItem<_DropdownValueInfo>(
-          value: e, child: Text(e.content, style: Theme.of(context).textTheme.subtitle2,));
+  void _updateDropdownValue(int index, String value) {
+    int _index = 0;
+    _setSheets[index].forEach((element) {
+      if (element.instrument == value) {
+        _dropdownValues[index] = _DropdownValueInfo(
+          content: element.instrument,
+          index: _index,
+          status: Status.isLoading,
+          url: element.content
+        );
+      }
+      _index++;
+      });
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownItems(
+      List<String> listOfInstruments) {
+    return listOfInstruments.map<DropdownMenuItem<String>>((e) {
+      return DropdownMenuItem<String>(
+          value: e, child: Text(e, style: Theme.of(context).textTheme.subtitle2,));
     }).toList();
   }
 
   Widget _buildDropdown(int index) {
     bool isEnable = _dropdownValues[index].status != Status.noContent;
     var instruments = _getListOfInstruments(index);
-    var items;
 
-    if (instruments.isNotEmpty) {
-      items = _buildDropdownItems(instruments);
-    } else {
-      items = _buildDropdownItems([_dropdownValues[index]]);
-    }
+    print(_dropdownValues[index]);
 
-    return DropdownButton<_DropdownValueInfo>(
-      value: _dropdownValues[index],
+    return DropdownButton<String>(
+      value: isEnable ? _dropdownValues[index].content : null,
       icon: Icon(Icons.arrow_drop_down),
       dropdownColor: Theme.of(context).backgroundColor,
       iconSize: 24,
       elevation: 16,      
-      hint: Text('No instruments available', style: Theme.of(context).textTheme.subtitle2),
+      hint: isEnable ? null : Text('No instruments available', style: Theme.of(context).textTheme.subtitle2),
       style: dropdownTextStyle,
       underline: Container(
         height: 0,
       ),
       onChanged: isEnable
-          ? (_DropdownValueInfo newValue) {
+          ? (newValue) {
+            print(newValue);
               setState(() {
-                _dropdownValues[index] = newValue;
+                _updateDropdownValue(index, newValue);
               });
               _loadPdf();
             }
           : null,
-      items: items,
+      items: isEnable ? _buildDropdownItems(instruments) : null,
     );
   }
 
@@ -214,7 +232,7 @@ class _SheetsViewerState extends State<SheetsViewer> {
     for (int i = 0; i < size; i++) {
       cards.add(_buildCard([
         _buildDropdownCard(i),
-        _dropdownValues[i].status == Status.noContent
+        _dropdownValues[i].status == Status.noContent || _dropdownValues[i].status == Status.partial
             ? Expanded(
                 child: FeedbackMessage(
                     icon: MdiIcons.textBoxRemove,
