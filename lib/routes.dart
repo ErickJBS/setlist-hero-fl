@@ -6,10 +6,10 @@ import './screens/register/index.dart';
 import './screens/login/index.dart';
 
 const String splashRoute = '/';
-const String homeRoute = 'Initial';
+const String homeRoute = 'home';
 const String registerRoute = 'register';
 const String loginRoute = 'login';
-const String songViewer = 'song_viewer';
+const String songViewer = 'viewer';
 
 class Router {
   static Route <dynamic> generateRoute(RouteSettings settings) {
