@@ -36,10 +36,14 @@ class _EventViewerState extends State<EventViewer> {
       endDate: widget.endDate.toString()
     );
     List<Event> events = await eventService.findByFilter(filter);
+    try {
     setState(() {
       _events = events;
       _isLoading = false;
     });
+    } catch (e) {
+      
+    }
   }
 
   @override

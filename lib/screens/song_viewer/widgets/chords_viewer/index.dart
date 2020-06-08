@@ -52,7 +52,7 @@ class _ChrodsViewerState extends State<ChrodsViewer> {
     TextSpanBuilder builder = new TextSpanBuilder(scale: _viewerFontScale);
 
     for (Song element in widget.songs) {
-      if (element.lyrics == null) {
+      if (element.chords == null) {
         cards.add(FeedbackMessage(icon: MdiIcons.textBoxRemove, message: 'No content for this song'));
       } else {
         var doc = Delta.fromJson(element.chords['ops']);
